@@ -1,0 +1,968 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Dusupay Document - Merchant API Document</title>
+
+    <link href="stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+      <script src="javascripts/all.js" type="text/javascript"></script>
+
+      <script>
+        $(function() {
+          setupLanguages(["ruby"]);
+        });
+      </script>
+  </head>
+
+  <body class="index">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="ruby">Example</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+        <ul class="toc-footer">
+            <li><a href='#'>Merchant API Doc.</a></li>
+            <li><a href='#'>dusupay.com</a></li>
+            <li><a href='#'>&copy; since 2015</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="introduction">Introduction</h1>
+
+<p>This Documentation is dedicated to dusupay Merchants or developers with websites/webapps that have/need to integrate dusupay Payment APIs available.</p>
+
+<p>Welcome to the Dusupay&rsquo;s Merchant/Website API Doc! Use this Documentation to send and receive funds on your website or webapp in a more reliable manner.</p>
+
+<p>You can view examples/sample codes in the dark area to the right, where applicable.</p>
+
+<h1 id="get-started">Get started</h1>
+
+<ol>
+<li>Sign into your Dusupay account and create a new merchant account if you do not have one already.</li>
+<li>Your account can instantly receive payments as soons as it&rsquo;s created.<br> 
+However, you will need your new merchant account approved to make payouts or get settled. You can contact us at info@dusupay.com regarding this.</li>
+</ol>
+
+          <h1 id="request-response">Request/Response</h1>
+
+<h2 id="requests">Requests</h2>
+
+<ul>
+<li>content-type: application/json</li>
+<li>All request date is expected in json format</li>
+</ul>
+
+<h3 id="base-url">Base Url</h3>
+
+<p><code class="prettyprint">https://api.dusupay.com</code></p>
+
+<h2 id="responses">Responses</h2>
+
+<ul>
+<li>All responses will return in json format</li>
+</ul>
+
+<h3 id="general-response-format">General Response format</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">202</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"accepted"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transaction in Progress"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="err">...</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>code</td>
+<td>this is similar to the standard HTTP status codes</td>
+</tr>
+<tr>
+<td>status</td>
+<td>simple meaning of the status code</td>
+</tr>
+<tr>
+<td>message</td>
+<td>Any message for the data returned</td>
+</tr>
+<tr>
+<td>data</td>
+<td>can contain an object or list.</td>
+</tr>
+</tbody></table>
+
+<h2 id="response-codes">Response Codes</h2>
+
+<table><thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>We will only respond with <code class="prettyprint">200</code> when transactions complete. Especially for synchronous requests</td>
+</tr>
+<tr>
+<td>202</td>
+<td>We have received your request but it has not completed. It’s being processed</td>
+</tr>
+<tr>
+<td>400</td>
+<td>When required data or parameters are missing</td>
+</tr>
+<tr>
+<td>401</td>
+<td>When the request does not include the <code class="prettyprint">api_key</code> and/or the <code class="prettyprint">secret-key</code> in the header</td>
+</tr>
+<tr>
+<td>404</td>
+<td>When the resource requested is not found</td>
+</tr>
+<tr>
+<td>422</td>
+<td>When the request has been received but can not be processed. The reason for failure will always be availed in the <code class="prettyprint">message</code> parameter</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Request failure due to server error in our system</td>
+</tr>
+</tbody></table>
+
+<h3 id="nb">NB</h3>
+
+<ul>
+<li>These codes are effected at http level too.</li>
+</ul>
+
+          <h1 id="request-authorization">Request Authorization</h1>
+
+<h2 id="at-collection">At Collection</h2>
+
+<ul>
+<li>Only merchant account <code class="prettyprint">api_key</code> should be included in the request parameters.</li>
+</ul>
+
+<h2 id="at-payout">At Payout</h2>
+
+<ul>
+<li>Both merchant account <code class="prettyprint">api_key</code> and <code class="prettyprint">secret-key</code> are required.</li>
+</ul>
+
+<h3 id="note">Note</h3>
+
+<ul>
+<li><p><code class="prettyprint">secret-key</code> should be included in a header named <code class="prettyprint">secret-key</code> e.g <br><br>
+<b>“secret-key: SECK-83he8237gju3yg2i3”</b></p></li>
+<li><p>The <code class="prettyprint">api_key</code> should be included in the request parameters.</p></li>
+</ul>
+
+<h2 id="obtaining-api-keys">Obtaining API keys</h2>
+
+<ol>
+<li><p><code class="prettyprint">api_key</code> - Under your merchant account, Click settings from the side menu.
+Got to API Settings and you will see it.</p></li>
+<li><p><code class="prettyprint">secret-key</code> - Under the API settings tab, Click the edit(pencil) button. Then Generate the secret key.</p></li>
+</ol>
+
+<h3 id="note">Note</h3>
+
+<ul>
+<li>You need to copy the new secret key to a very safe place because we will not be able to show it to you again.</li>
+<li>Whenever you loose your secret key, you will need to generate a new one which always replaces the old one.</li>
+</ul>
+
+          <h1 id="receiving-money">Receiving Money</h1>
+
+<h1 id="introduction">Introduction</h1>
+
+<h2 id="how-it-work">How it work</h2>
+
+<ol>
+<li>Customers will pay you using multiple payment options in different countries that have different currencies per provider or network used.</li>
+<li>These funds collected are deposited to your merchant account that you created earlier. </li>
+<li>Funds can be recieved in multiple currencies and stored as received with no conversion Therefore you will not loose value</li>
+<li>Your merchant account is in position to store value in different currencies from different countries that we can later collectively settle to your bank accounts in any country we support.</li>
+</ol>
+
+<h2 id="example">Example</h2>
+
+<p>You can request a payment of 10 USD via mobile money airtel_ug.</p>
+
+<ul>
+<li>10 USD will be converted to UGX since airtel_ug holds only UGX accounts.</li>
+<li>Depending on the country and provider, the client will be debited an equivalent slightly higher than the market rate value by the provider. </li>
+<li>The provider(airtel_ug, bank) will decide how much they debit off the customer account at their rate that is slightly higher than the market rate in most case.<br> 
+This is like same way banks decide how much to debit when processing with visa/mastercard.</li>
+<li>However, Dusupay will credit the equivalent of 10 USD to your UGX merchant sub-account at market rate with no extra fx markup.</li>
+</ul>
+
+<h2 id="take-note">Take Note</h2>
+
+<ol>
+<li><p>You will have to implemement a <b><code class="prettyprint">webhook/callback</code></b> url and add it to the merchant account settings
+<br><br> We will post all payments made through your merchant account to that url whenever the transaction status changes.</p></li>
+<li><p>For some payments especially online banking, customers need to complete their payments from a web interface.<br><br>
+Therefore, in the request response, we will return a field called <code class="prettyprint">payment_url</code> that contains a url that you will need to redirect the client for them to complete/approve the payment.
+<br><br>
+For payments that do not need to be completed from the web, the <code class="prettyprint">payment_url</code> field will be empty</p></li>
+</ol>
+
+          <h1 id="collection">Collection</h1>
+
+<h2 id="sample-request">Sample Request</h2>
+
+<p>Request payments at the comfort of your home currency. </p>
+
+<ul>
+<li>content-type: application/json</li>
+<li>endpoint: /v1/collections</li>
+<li>method: POST</li>
+</ul>
+<pre class="highlight ruby"><code><span class="no">POST</span><span class="p">:</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">api</span><span class="p">.</span><span class="nf">dusupay</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">collections</span>
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w"> 
+    </span><span class="nt">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pk_eridsdsde23e23e2. Get this from your merchant account settings"</span><span class="p">,</span><span class="w"> 
+    </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
+    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MOBILE_MONEY/CARD/BANK"</span><span class="p">,</span><span class="w"> 
+    </span><span class="nt">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"e.g airtel_ug, mtn_ug. Get list of providers from the Providers API"</span><span class="p">,</span><span class="w"> 
+    </span><span class="nt">"account_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"256777111000"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"merchant_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Your payment reference"</span><span class="p">,</span><span class="w"> 
+    </span><span class="nt">"narration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Payment for Hosting"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"redirect_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional. used for payments completed via payment_url returned "</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"account_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"account_email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"voucher"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional. Required for Ghana vodafone mobile money"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>api_key</td>
+<td>string, required</td>
+<td>Obtained from merchant account settings</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string, required</td>
+<td>You can use your home currency when making requests. e.g USD<br><br>You will receive your funds at market rate into your merchant sub-account account.</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>int/double, required</td>
+<td>2 decimal places allowed for double.</td>
+</tr>
+<tr>
+<td>method</td>
+<td>string, required</td>
+<td><code class="prettyprint">MOBILE_MONEY</code>, <code class="prettyprint">CARD</code>, <code class="prettyprint">BANK</code></td>
+</tr>
+<tr>
+<td>provider_id</td>
+<td>string, required</td>
+<td>e.g <code class="prettyprint">airtel_ug</code>, <code class="prettyprint">mtn_ug</code>. Get list of providers from the Providers API</td>
+</tr>
+<tr>
+<td>account_number</td>
+<td>string, required for MOBILE_MONEY</td>
+<td>Provide an internationally formatted number if the payment method is <code class="prettyprint">MOBILE_MONEY</code> e.g 256777111777<br><br>    It is not required for <code class="prettyprint">CARD</code> and <code class="prettyprint">BANk</code> payment methods unless specified in the Exceptional Parameters that follow</td>
+</tr>
+<tr>
+<td>merchant_reference</td>
+<td>string, required,<br><code class="prettyprint">4 to 36</code> characters</td>
+<td>This is a <code class="prettyprint">unique</code> transaction reference generated by your system.<br><br>You can try using <a href="https://www.uuidgenerator.net/" target="_blank"><code class="prettyprint">UUID version 4</code></a>.</td>
+</tr>
+<tr>
+<td>narration</td>
+<td>string, required,<br><code class="prettyprint">4 to 64</code> characters</td>
+<td>Use this to add a brief description or comment to the transaction.</td>
+</tr>
+<tr>
+<td>redirect_url</td>
+<td>string, optional</td>
+<td>Used to redirect the client after a payment has been completed or canceled via the <code class="prettyprint">payment_url</code> if returned in the request’s response. <br><br>When a request is made, a payment link is returned in the response if the payment needs to be completed by the client via the <code class="prettyprint">payment_url</code> returned.<br><br>Some of the payment methods that would return a payment link include, online banking methods, visa 3d, and any other the require input via a web interface.</td>
+</tr>
+<tr>
+<td>account_name</td>
+<td>string, optional</td>
+<td>Helps to easily lookup customer transactions.</td>
+</tr>
+<tr>
+<td>account_email</td>
+<td>string, optional</td>
+<td>Used to email customer. Helps to easily lookup customer transactions.</td>
+</tr>
+</tbody></table>
+
+<h2 id="special-parameters">Special Parameters</h2>
+
+<ul>
+<li>Some networks or providers require extra data from the customer for the transaction to get processed. </li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Network</th>
+<th>Fields</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GhanaMobileMoney <br>- <b>Vodafone<b></td>
+<td>voucher</td>
+<td>String. Customer should generate and pass a voucher number sent to them their Network</td>
+</tr>
+</tbody></table>
+
+<h2 id="sample-response">Sample Response</h2>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">202</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"accepted"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Request Accepted."</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">226</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"request_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"request_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"account_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">737.9934</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"account_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UGX"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"transaction_fee"</span><span class="p">:</span><span class="w"> </span><span class="mf">21.4018</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"total_credit"</span><span class="p">:</span><span class="w"> </span><span class="mf">716.5916</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mtn_ug"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"merchant_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"76859aae-f148-48c5-9901-2e474cf19b71"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"internal_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DUSUPAY405GZM1G5JXGA71IK"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"transaction_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PENDING"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"customer_charged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"payment_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This only exists if the payment needs to be completed from a web browser."</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<table><thead>
+<tr>
+<th>Parameters</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>request_amount</td>
+<td>Amount requested for collection</td>
+</tr>
+<tr>
+<td>request_currency</td>
+<td>Currency of the request amount</td>
+</tr>
+<tr>
+<td>account_amount</td>
+<td>The converted amount from <code class="prettyprint">request_currency</code> to <code class="prettyprint">account_currency</code> at market rate.</td>
+</tr>
+<tr>
+<td>account_currency</td>
+<td>The <code class="prettyprint">sub-account/wallet</code> currency in your merchant account where the amount paid by the customer will be deposited. <br><br> The currency of the amount paid by the customer is determined by the <code class="prettyprint">provider_id</code> used to pay.</td>
+</tr>
+<tr>
+<td>transaction_fee</td>
+<td>This is the fee charged off the paid amount. Whether the merchant is charged or the customer, depending on your merchant setting, the fees will be included in this field.</td>
+</tr>
+<tr>
+<td>total_credit</td>
+<td>This is the amount less the <code class="prettyprint">transaction_fee</code> deposited in your account.</td>
+</tr>
+<tr>
+<td>provider_id</td>
+<td>This is the provider the customer is expected to pay from</td>
+</tr>
+<tr>
+<td>merchant_reference</td>
+<td>This is the reference passed earlier in the request</td>
+</tr>
+<tr>
+<td>internal_reference</td>
+<td>This is our internal reference. Useful when dealing with transaction issues. Store it.</td>
+</tr>
+<tr>
+<td>transaction_status</td>
+<td>The status of the transaction</td>
+</tr>
+<tr>
+<td>customer_charged</td>
+<td>This indicates whether it&rsquo;s the customer that was charged or not. <br><br> Under your merchant account settings, you can define whether we should charge you or the customer paying.</td>
+</tr>
+<tr>
+<td>payment_url</td>
+<td>This is a url where the customer should be redirect to complete the payment.<br><br> This link is only returned if the payment has to be completed from a web browser. Therefore always redirect the user to it whenever it&rsquo;s returned. <br><br> This is common for online banking.</td>
+</tr>
+</tbody></table>
+
+          <h1 id="sending-money">Sending Money</h1>
+
+<h1 id="introduction">Introduction</h1>
+
+<h2 id="how-it-work">How it work</h2>
+
+<ol>
+<li>With dusupay, Money is sent to either a customer&rsquo;s mobile money wallet or bank supported.</li>
+<li>We will debit the equivalent local currency amount supported by the provider at market rate.</li>
+<li>Funds received by the customer account depend on the provider rate so they will receive funds less than those at market rate.</li>
+</ol>
+
+          <h1 id="payout">Payout</h1>
+
+<p>Request payments at the comfort of your home currency. <br><br></p>
+
+<ul>
+<li>content-type: application/json</li>
+<li>endpoint: /v1/payouts</li>
+<li>method: POST</li>
+</ul>
+<pre class="highlight ruby"><code><span class="no">POST</span><span class="p">:</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">api</span><span class="p">.</span><span class="nf">dusupay</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">payouts</span>
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUBK-24b72aebb821aea177483039677df9d3"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MOBILE_MONEY"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mtn_ug"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"account_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"256777044237"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"account_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hillary Namanya"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"account_email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional@email.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"merchant_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AdIVeSAdeLEsta"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"narration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hospital Bill"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="request-headers">Request Headers</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Examples</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>secret-key</td>
+<td>SECK3298j923</td>
+<td>Use your merchant account secret key</td>
+</tr>
+</tbody></table>
+
+<h3 id="request-parameters">Request Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>api_key</td>
+<td>string, required</td>
+<td>Obtained from merchant account settings</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string, required</td>
+<td>You can use your home currency when making requests. e.g USD<br><br>You will receive your funds at market rate into your merchant sub-account account.</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>int/double, required</td>
+<td>2 decimal places allowed for double.</td>
+</tr>
+<tr>
+<td>method</td>
+<td>string, required</td>
+<td><code class="prettyprint">MOBILE_MONEY</code>, <code class="prettyprint">BANK</code></td>
+</tr>
+<tr>
+<td>provider_id</td>
+<td>string, required</td>
+<td>e.g <code class="prettyprint">airtel_ug</code>, <code class="prettyprint">mtn_ug</code>. Get list of providers from the <a href="#payment-options">Payment Options API</a></td>
+</tr>
+<tr>
+<td>account_number</td>
+<td>string, required</td>
+<td>Internationally formatted number required if <code class="prettyprint">method</code> is <code class="prettyprint">MOBILE_MONEY</code></td>
+</tr>
+<tr>
+<td>account_name</td>
+<td>string, required</td>
+<td>The name of the customer&rsquo;s account</td>
+</tr>
+<tr>
+<td>account_email</td>
+<td>string, optional</td>
+<td>The email address of the customer</td>
+</tr>
+<tr>
+<td>merchant_reference</td>
+<td>string, required,<br><code class="prettyprint">4 to 36</code> characters</td>
+<td>This is a <code class="prettyprint">unique</code> transaction reference generated by your system.<br><br>You can try using <code class="prettyprint">UUID version 4</code>.</td>
+</tr>
+<tr>
+<td>narration</td>
+<td>string, required,<br><code class="prettyprint">4 to 64</code> characters</td>
+<td>Use this to add a brief description or comment to the transaction.</td>
+</tr>
+<tr>
+<td>extra_params</td>
+<td>Object, optional</td>
+<td>This field is mainly used to pass data that applies to specific payout <code class="prettyprint">methods</code> or <code class="prettyprint">providers</code> that follow below</td>
+</tr>
+</tbody></table>
+
+<h2 id="extra-parameters">Extra parameters</h2>
+<pre class="highlight ruby"><code><span class="no">Sample</span> <span class="no">Extra</span> <span class="no">Parameters</span>
+</code></pre>
+<pre class="highlight ruby"><code>    <span class="p">{</span>
+        <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+        <span class="s2">"extra_params"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"bank_code"</span><span class="p">:</span> <span class="s2">"6876132"</span><span class="p">,</span>
+            <span class="s2">"branch_code"</span><span class="p">:</span> <span class="s2">""</span>
+        <span class="p">},</span>
+        <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+    <span class="p">}</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Extra fields</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Uganda<br> -<code class="prettyprint">BANK</code></td>
+<td>bank_code</td>
+<td>The Bank code of Ugandan Bank</td>
+</tr>
+<tr>
+<td>Kenya<br> -<code class="prettyprint">BANK</code></td>
+<td>bank_code</td>
+<td>The Bank code of Kenyan Bank</td>
+</tr>
+<tr>
+<td>Tanzania<br> -<code class="prettyprint">BANK</code></td>
+<td>bank_code</td>
+<td>The Bank code of Tanzanian Bank</td>
+</tr>
+<tr>
+<td>Ghana<br> -<code class="prettyprint">BANK</code></td>
+<td>bank_code</td>
+<td>The Bank code of Ghanaian Bank</td>
+</tr>
+<tr>
+<td></td>
+<td>branch_code</td>
+<td>The Branch code of Ghanaian Bank. Required for GHS</td>
+</tr>
+</tbody></table>
+
+<h2 id="sample-response">Sample Response</h2>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">202</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"accepted"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Request Accepted."</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">231</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"request_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"request_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"account_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">738.6622</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"account_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UGX"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"transaction_fee"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"total_debit"</span><span class="p">:</span><span class="w"> </span><span class="mf">1738.6622</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mtn_ug"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"internal_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DUSUPAY405GZM1NRJXGHH2SM"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"transaction_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PENDING"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+          <h1 id="miscellaneous">Miscellaneous</h1>
+
+          <h1 id="transaction-statuses">Transaction Statuses</h1>
+
+<table><thead>
+<tr>
+<th>Status</th>
+<th>Reason</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>PENDING</td>
+<td>When a payment is waiting for processing.</td>
+</tr>
+<tr>
+<td>FAILED</td>
+<td>When a payment failed</td>
+</tr>
+<tr>
+<td>COMPLETED</td>
+<td>When a payment completed</td>
+</tr>
+<tr>
+<td>CANCELLED</td>
+<td>When a customer cancelled a payment</td>
+</tr>
+</tbody></table>
+
+          <h1 id="webhooks-ipns">Webhooks/IPNS</h1>
+
+<ol>
+<li><p>All <code class="prettyprint">collection</code> and <code class="prettyprint">payout</code> transaction <code class="prettyprint">callbacks</code> will be sent to the url<br> set as the <code class="prettyprint">webhook url</code> under your merchant account settings.<br></p></li>
+<li><p>A <b><code class="prettyprint">POST</code></b> request with <b><code class="prettyprint">json</code></b> data will be sent to your <code class="prettyprint">webhook url</code> </p></li>
+<li><p>We require that you provide a secure webhook url.<br> 
+Therefore only <code class="prettyprint">https</code> urls can be set or called-back.</p></li>
+</ol>
+
+<h2 id="setting-webhook">Setting webhook</h2>
+
+<ol>
+<li>Click the edit button under Api Settings of the merchant account settings.</li>
+<li>Set the Webhook URL field with your webhook URL</li>
+</ol>
+
+<h2 id="calling-webhook">Calling webhook</h2>
+
+<ol>
+<li><p>We will call your <code class="prettyprint">webhook url</code> whenever the transaction status changes.</p></li>
+<li><p>You will need to acknowledge receipt of the callback by responding with http status code <code class="prettyprint">200</code>.<br> 
+Otherwise we will keep calling your endpoint at an interval of 10 minutes for 3 days.</p></li>
+</ol>
+
+<h2 id="accepting-webhook">Accepting webhook</h2>
+
+<ol>
+<li><p>To ensure that the callback data sent to your <code class="prettyprint">webhook URL</code> comes from our servers, you need to set a callback hash under the Api Settings.</p></li>
+<li><p>We will include a header called <code class="prettyprint">webhook-hash</code> in the request sent to the callback url. <br>
+e.g <b>&ldquo;webhook-hash: myWebhookHashSetInTheMerchantAccount&rdquo; </b></p></li>
+<li><p>You should check to make sure the <code class="prettyprint">webhook-hash</code> we sent matches what was set under your merchant account before giving value to the customer. </p></li>
+</ol>
+
+<h2 id="responding-to-webhooks">Responding to webhooks</h2>
+
+<ul>
+<li>  We will stop calling you back if your callback url responds with &ldquo;http status codes&rdquo; below;<br></li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">200</code></td>
+<td>- OK<br></td>
+</tr>
+<tr>
+<td><code class="prettyprint">400</code></td>
+<td>- Bad Request<br></td>
+</tr>
+<tr>
+<td><code class="prettyprint">401</code></td>
+<td>- Unauthorised<br></td>
+</tr>
+<tr>
+<td><code class="prettyprint">403</code></td>
+<td>- Forbidden<br></td>
+</tr>
+<tr>
+<td><code class="prettyprint">422</code></td>
+<td>- Unprocessable entity.<br></td>
+</tr>
+</tbody></table>
+
+<h2 id="rejecting-webhook">Rejecting webhook</h2>
+
+<ol>
+<li>In a scenario where the transaction cannot be processed or you cannot give value, respond with http codes below;</li>
+</ol>
+
+<table><thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">400</code></td>
+<td>- Bad Request. <br>- e.g when there’s a missing parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">422</code></td>
+<td>- Unprocessable entity. <br> - e.g when the request is fine but you cannot complete it because the amount does not match what you expected.</td>
+</tr>
+</tbody></table>
+
+<h2 id="note">Note</h2>
+
+<ol>
+<li>Always verify the <code class="prettyprint">amount</code> to make sure it matches what is meant to be <code class="prettyprint">paid</code>.</li>
+</ol>
+
+<h2 id="sample-collection-ipn-data">Sample Collection  IPN Data</h2>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">226</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"request_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"request_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"account_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">737.9934</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"account_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UGX"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"transaction_fee"</span><span class="p">:</span><span class="w"> </span><span class="mf">21.4018</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"total_credit"</span><span class="p">:</span><span class="w"> </span><span class="mf">716.5916</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mtn_ug"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"merchant_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"76859aae-f148-48c5-9901-2e474cf19b71"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"internal_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DUSUPAY405GZM1G5JXGA71IK"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"transaction_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"COMPLETED"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"transaction_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"collection"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"customer_charged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transaction Completed Successfully"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="note">Note</h3>
+
+<ul>
+<li>field <b><code class="prettyprint">total_credit</code></b> is returned in a collection IPN</li>
+<li>field <code class="prettyprint">customer_charged</code> is returned in a collection IPN</li>
+</ul>
+
+<h2 id="sample-payout-ipn-data">Sample Payout  IPN Data</h2>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">226</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"request_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"request_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"account_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">737.9934</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"account_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UGX"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"transaction_fee"</span><span class="p">:</span><span class="w"> </span><span class="mf">21.4018</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"total_debit"</span><span class="p">:</span><span class="w"> </span><span class="mf">716.5916</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mtn_ug"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"merchant_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"76859aae-f148-48c5-9901-2e474cf19b71"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"internal_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DUSUPAY405GZM1G5JXGA71IK"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"transaction_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"COMPLETED"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"transaction_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"payout"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transaction Completed Successfully"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="take-note">Take note</h3>
+
+<ul>
+<li>field <b><code class="prettyprint">total_debit</code></b> is returned in a payout IPN</li>
+<li>field <code class="prettyprint">customer_charged</code> is <b><code class="prettyprint">NOT</code></b> returned in a collection IPN</li>
+</ul>
+
+          <h1 id="payment-options">Payment Options</h1>
+
+<ul>
+<li>content-type: application/json</li>
+<li>endpoint: /v1/payment-options/{{param1}}/{{param2}}/{{param3}}?api_key={{api_key}}</li>
+<li>method: GET</li>
+</ul>
+<pre class="highlight ruby"><code><span class="no">GET</span><span class="p">:</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">api</span><span class="p">.</span><span class="nf">dusupay</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">payment</span><span class="o">-</span><span class="n">options</span><span class="o">/</span><span class="p">{{</span><span class="n">param1</span><span class="p">}}</span><span class="o">/</span><span class="p">{{</span><span class="n">param2</span><span class="p">}}</span><span class="o">/</span><span class="p">{{</span><span class="n">param3</span><span class="p">}}?</span><span class="n">api_key</span><span class="o">=</span><span class="p">{{</span><span class="n">api_key</span><span class="p">}}</span>
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Request completed successfully."</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mtn_ug"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MTN Mobile Money"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"airtel_ug"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Airtel Money"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="request-headers">Request Headers</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Examples Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>secret-key</td>
+<td>SECK3298j923&hellip;</td>
+<td>Use your merchant account secret key</td>
+</tr>
+</tbody></table>
+
+<h3 id="request-query-parameters">Request Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Examples Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>api_key</td>
+<td>PUBK3298j923&hellip;</td>
+<td>Get your public key from your merchant account settings</td>
+</tr>
+</tbody></table>
+
+<h3 id="request-url-parameters">Request Url Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Paramater</th>
+<th>Examples</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>{param1}</td>
+<td><code class="prettyprint">collection</code></td>
+<td>If you want collection options returned</td>
+</tr>
+<tr>
+<td></td>
+<td><code class="prettyprint">payout</code></td>
+<td>If you want payout options returned</td>
+</tr>
+<tr>
+<td>{param2}</td>
+<td><code class="prettyprint">MOBILE_MONEY</code>,</td>
+<td>For Mobile Money</td>
+</tr>
+<tr>
+<td></td>
+<td><code class="prettyprint">BANK</code>,</td>
+<td>For Bank</td>
+</tr>
+<tr>
+<td></td>
+<td><code class="prettyprint">CARD</code>,</td>
+<td>For Card</td>
+</tr>
+<tr>
+<td>{param3}</td>
+<td><code class="prettyprint">NG</code></td>
+<td>The ISO2 code of the countries supported<br> E.g. UG,KE,NG,ZM,..</td>
+</tr>
+</tbody></table>
+
+<h3 id="response-fields">Response Fields</h3>
+
+<table><thead>
+<tr>
+<th>field</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Use <code class="prettyprint">id</code> where a <code class="prettyprint">provider_id</code> is required</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The provider name</td>
+</tr>
+</tbody></table>
+
+          <h1 id="account-balance">Account Balance</h1>
+
+<ul>
+<li>content-type: application/json</li>
+<li>endpoint: /v1/merchants/balance?api_key={{api_key}}</li>
+<li>method: GET</li>
+</ul>
+<pre class="highlight ruby"><code><span class="no">GET</span><span class="p">:</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">api</span><span class="p">.</span><span class="nf">dusupay</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">merchants</span><span class="o">/</span><span class="n">balance?api_key</span><span class="o">=</span><span class="p">{{</span><span class="n">api_key</span><span class="p">}}</span>
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Request completed successfully."</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UGX"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"balance"</span><span class="p">:</span><span class="w"> </span><span class="mf">5475.816</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"balance"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="request-headers">Request Headers</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Examples</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>secret-key</td>
+<td>SECK3298j923</td>
+<td>Use your merchant account secret key</td>
+</tr>
+</tbody></table>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Examples</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>api_key</td>
+<td>PUBK3298j923</td>
+<td>Get your public key from your merchant account settings</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="ruby">Example</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
