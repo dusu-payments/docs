@@ -309,7 +309,7 @@ For payments that do not need to be completed from the web, the <code class="pre
 <tr>
 <td>redirect_url</td>
 <td>string, optional</td>
-<td>Used to redirect the client after a payment has been completed or canceled via the <code class="prettyprint">payment_url</code> if returned in the request’s response. <br><br>When a request is made, a payment link is returned in the response if the payment needs to be completed by the client via the <code class="prettyprint">payment_url</code> returned.<br><br>Some of the payment methods that would return a payment link include, online banking methods, visa 3d, and any other the require input via a web interface.</td>
+<td>Required for <code class="prettyprint">BANK</code> and <code class="prettyprint">CARD</code> collections. Used to redirect the client after a payment has been completed or canceled via the <code class="prettyprint">payment_url</code> if returned in the request’s response. <br><br>When a request is made, a payment link is returned in the response if the payment needs to be completed by the client via the <code class="prettyprint">payment_url</code> returned.<br><br>Some of the payment methods that would return a payment link include, online banking methods, visa 3d, and any other the require input via a web interface.</td>
 </tr>
 <tr>
 <td>account_name</td>
@@ -426,7 +426,7 @@ For payments that do not need to be completed from the web, the <code class="pre
 
 <ul>
 <li><code class="prettyprint">CARD</code> should be passed as the <code class="prettyprint">method</code>.</li>
-<li>A payment_url will be returned which you will redirect the customer to complete the payment</li>
+<li>A <code class="prettyprint">payment_url</code> will be returned which you will redirect the customer to complete the payment</li>
 <li><code class="prettyprint">redirect_url</code> should be passed too. This is where the customer will be redirected after the payment has completed or been cancelled </li>
 </ul>
 
