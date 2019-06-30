@@ -294,7 +294,7 @@ For payments that do not need to be completed from the web, the <code class="pre
 <tr>
 <td>account_number</td>
 <td>string, required for MOBILE_MONEY</td>
-<td>Provide an internationally formatted number if the payment method is <code class="prettyprint">MOBILE_MONEY</code> e.g 256777111777<br><br>    It is not required for <code class="prettyprint">CARD</code> and <code class="prettyprint">BANk</code> payment methods unless specified in the Exceptional Parameters that follow</td>
+<td>Provide an internationally formatted number if the payment method is <code class="prettyprint">MOBILE_MONEY</code> e.g 256777111777<br><br>    It is not required for <code class="prettyprint">CARD</code> and <code class="prettyprint">BANK</code> payment methods unless specified in the Exceptional Parameters that follow</td>
 </tr>
 <tr>
 <td>merchant_reference</td>
@@ -308,8 +308,8 @@ For payments that do not need to be completed from the web, the <code class="pre
 </tr>
 <tr>
 <td>redirect_url</td>
-<td>string, optional</td>
-<td>Required for <code class="prettyprint">BANK</code> and <code class="prettyprint">CARD</code> collections. Used to redirect the client after a payment has been completed or canceled via the <code class="prettyprint">payment_url</code> if returned in the request’s response. <br><br>When a request is made, a payment link is returned in the response if the payment needs to be completed by the client via the <code class="prettyprint">payment_url</code> returned.<br><br>Some of the payment methods that would return a payment link include, online banking methods, visa 3d, and any other the require input via a web interface.</td>
+<td>string, optional for MOBILE_MONEY</td>
+<td>Required for <code class="prettyprint">BANK</code> and <code class="prettyprint">CARD</code> collections.<br><br> Used to redirect the client after a payment has been completed or canceled via the <code class="prettyprint">payment_url</code> if returned in the request’s response. <br><br>When a request is made, a payment link is returned in the response if the payment needs to be completed by the client via the <code class="prettyprint">payment_url</code> returned.<br><br>Some of the payment methods that would return a payment link include, online banking methods, visa 3d, and any other the require input via a web interface.</td>
 </tr>
 <tr>
 <td>account_name</td>
@@ -338,8 +338,8 @@ For payments that do not need to be completed from the web, the <code class="pre
 </thead><tbody>
 <tr>
 <td>GhanaMobileMoney <br>- <b>Vodafone<b></td>
-<td>voucher</td>
-<td>String. Customer should generate and pass a voucher number sent to them their Network</td>
+<td><br>voucher</td>
+<td><br>String. Customer should generate and pass a voucher number sent to them their Network</td>
 </tr>
 </tbody></table>
 
@@ -435,8 +435,20 @@ For payments that do not need to be completed from the web, the <code class="pre
 <ul>
 <li>Only local cards of a given country are supported. </li>
 <li>Not all countries have this option available.</li>
-<li>This option will require a customer to provide their <code class="prettyprint">card pin</code> for the payment to be processed.</li>
+<li>This option will require a customer to provide their card pin for the payment to be processed in the webview/browser</li>
 </ul>
+
+<table><thead>
+<tr>
+<th>provider_id</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>local_ngn</td>
+<td>Local Mastercard/Verve Nigeria</td>
+</tr>
+</tbody></table>
 
 <h3 id="international-cards">International Cards</h3>
 
@@ -449,26 +461,73 @@ sample <code class="prettyprint">provider_id</code> codes would look like below;
 <table><thead>
 <tr>
 <th>provider_id</th>
-<th>Description</th>
+<th>description</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>international_usd</td>
-<td>3d card payments to collect USD</td>
+<td>3D card payments to collect USD</td>
 </tr>
 <tr>
 <td>international_ugx</td>
-<td>3d card payments to collect UGX</td>
+<td>3D card payments to collect UGX</td>
 </tr>
 <tr>
 <td>international_kes</td>
-<td>3d card payments to collect KES</td>
+<td>3D card payments to collect KES</td>
+</tr>
+<tr>
+<td>&hellip;</td>
+<td>&hellip;</td>
 </tr>
 </tbody></table>
 
 <ul>
-<li>To get the full list, query the <a href="#payment-options">payment options api </a></li>
+<li>Use the <a href="#payment-options">payment options api </a> to get per country card options</li>
 </ul>
+
+<h2 id="redirect-url">Redirect URL</h2>
+
+<h3 id="description">Description</h3>
+
+<ul>
+<li><code class="prettyprint">BANK</code> and <code class="prettyprint">CARD</code> payment options are processed from the browser or webview.</li>
+<li>A <code class="prettyprint">redirect_url</code> needs to be provided when making a collection request.</li>
+<li>When a customer completes, cancels or fails to make a payment, they will be redirected to the <code class="prettyprint">redirect_url</code> that was passed.</li>
+</ul>
+
+<h4 id="nb">NB</h4>
+
+<ul>
+<li>The data included  in <code class="prettyprint">redirect_url</code> are subject to change by the customer, 
+<br>therefore, only rely on the <a href="#webhooks">webhooks</a> information to give value to the customer.</li>
+</ul>
+
+<h3 id="redirect-data">Redirect Data</h3>
+
+<ul>
+<li><code class="prettyprint">GET</code> parameters such as below will be attached to the redirect url;</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>reference</td>
+<td>This is your merchant transaction reference</td>
+</tr>
+<tr>
+<td>status</td>
+<td>Transaction status</td>
+</tr>
+<tr>
+<td>message</td>
+<td>Response message.</td>
+</tr>
+</tbody></table>
 
           <h1 id="sending-money">Sending Money</h1>
 
@@ -839,10 +898,10 @@ e.g <b>&ldquo;webhook-hash: myWebhookHashSetInTheMerchantAccount&rdquo; </b></p>
 
 <ul>
 <li>content-type: application/json</li>
-<li>endpoint: /v1/payment-options/{{param1}}/{{param2}}/{{param3}}?api_key={{api_key}}</li>
+<li>endpoint: /v1/payment-options/{{type}}/{{method}}/{{country}}?api_key={{api_key}}</li>
 <li>method: GET</li>
 </ul>
-<pre class="highlight ruby"><code><span class="no">GET</span><span class="p">:</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">api</span><span class="p">.</span><span class="nf">dusupay</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">payment</span><span class="o">-</span><span class="n">options</span><span class="o">/</span><span class="p">{{</span><span class="n">param1</span><span class="p">}}</span><span class="o">/</span><span class="p">{{</span><span class="n">param2</span><span class="p">}}</span><span class="o">/</span><span class="p">{{</span><span class="n">param3</span><span class="p">}}?</span><span class="n">api_key</span><span class="o">=</span><span class="p">{{</span><span class="n">api_key</span><span class="p">}}</span>
+<pre class="highlight ruby"><code><span class="no">GET</span><span class="p">:</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">api</span><span class="p">.</span><span class="nf">dusupay</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">payment</span><span class="o">-</span><span class="n">options</span><span class="o">/</span><span class="n">collection</span><span class="o">/</span><span class="n">mobile_money</span><span class="o">/</span><span class="n">ug?api_key</span><span class="o">=</span><span class="p">{{</span><span class="n">api_key</span><span class="p">}}</span>
 </code></pre>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
@@ -903,7 +962,7 @@ e.g <b>&ldquo;webhook-hash: myWebhookHashSetInTheMerchantAccount&rdquo; </b></p>
 </tr>
 </thead><tbody>
 <tr>
-<td>{param1}</td>
+<td>type</td>
 <td><code class="prettyprint">collection</code></td>
 <td>If you want collection options returned</td>
 </tr>
@@ -913,7 +972,7 @@ e.g <b>&ldquo;webhook-hash: myWebhookHashSetInTheMerchantAccount&rdquo; </b></p>
 <td>If you want payout options returned</td>
 </tr>
 <tr>
-<td>{param2}</td>
+<td>method</td>
 <td><code class="prettyprint">MOBILE_MONEY</code>,</td>
 <td>For Mobile Money</td>
 </tr>
@@ -928,7 +987,7 @@ e.g <b>&ldquo;webhook-hash: myWebhookHashSetInTheMerchantAccount&rdquo; </b></p>
 <td>For Card</td>
 </tr>
 <tr>
-<td>{param3}</td>
+<td>country</td>
 <td><code class="prettyprint">NG</code></td>
 <td>The ISO2 code of the countries supported<br> E.g. UG,KE,NG,ZM,..</td>
 </tr>
