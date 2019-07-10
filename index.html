@@ -289,7 +289,7 @@ For payments that do not need to be completed from the web, the <code class="pre
 <tr>
 <td>provider_id</td>
 <td>string, required</td>
-<td>e.g <code class="prettyprint">airtel_ug</code>, <code class="prettyprint">mtn_ug</code>. Get list of providers from the Providers API</td>
+<td>e.g <code class="prettyprint">airtel_ug</code>, <code class="prettyprint">mtn_ug</code>. Get list of providers from the <a href="#payment-options">Payment Options API</a></td>
 </tr>
 <tr>
 <td>account_number</td>
@@ -543,6 +543,8 @@ sample <code class="prettyprint">provider_id</code> codes would look like below;
 
           <h1 id="payout">Payout</h1>
 
+<h2 id="sample-request">Sample Request</h2>
+
 <p>Request payments at the comfort of your home currency. <br><br></p>
 
 <ul>
@@ -649,6 +651,12 @@ sample <code class="prettyprint">provider_id</code> codes would look like below;
 </tbody></table>
 
 <h2 id="extra-parameters">Extra parameters</h2>
+
+<h3 id="description">Description</h3>
+
+<p>Different countries require different extra information to send money to customer&rsquo;s accounts correctly. <br><br></p>
+
+<p>Below are some of the fields per country that are required to be included in the <code class="prettyprint">extra_params</code> field when making a payout request.</p>
 <pre class="highlight ruby"><code><span class="no">Sample</span> <span class="no">Extra</span> <span class="no">Parameters</span>
 </code></pre>
 <pre class="highlight ruby"><code>    <span class="p">{</span>
@@ -696,7 +704,7 @@ sample <code class="prettyprint">provider_id</code> codes would look like below;
 <tr>
 <td></td>
 <td>branch_code</td>
-<td>The Branch code of Ghanaian Bank. Required for GHS</td>
+<td>The Branch code of Ghanaian Bank. Required for GHS <br><br> An api to get Branch Codes will soon be availed as they are being collected. Until them, Consider Ghana unavailable.</td>
 </tr>
 </tbody></table>
 
