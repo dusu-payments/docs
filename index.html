@@ -1077,6 +1077,55 @@ e.g <b>&ldquo;webhook-hash: myWebhookHashSetInTheMerchantAccount&rdquo; </b></p>
 </tr>
 </tbody></table>
 
+          <h1 id="testing-sandbox">Testing/Sandbox</h1>
+
+<h2 id="description">Description</h2>
+
+<ul>
+<li>This is a simulation of how the requests would be handled in production.</li>
+<li>Since you will not have a dashboard to set your <code class="prettyprint">test_webhook_url</code>, you need to include it when making api requests. </li>
+<li>We will <code class="prettyprint">POST</code> <code class="prettyprint">IPNs</code> to the <code class="prettyprint">test_webhook_url</code> included in the payment requests.</li>
+<li>Transactions are not logged anywhere on our system therefore you should not expect a dashboard.</li>
+<li>This sandbox is intended to speed up your integration process.</li>
+<li>We will randomly send <code class="prettyprint">COMPLETE</code> or <code class="prettyprint">FAILED</code> IPNs to your <code class="prettyprint">test_webhook_url</code> for test requests made.</li>
+</ul>
+
+<h2 id="base-url">Base URL</h2>
+
+<p>https://dashboard.dusupay.com/api-sandbox</p>
+
+<h2 id="test-credentials">Test Credentials</h2>
+
+<table><thead>
+<tr>
+<th>credential</th>
+<th>value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>api_key</td>
+<td>PUBK-119a612068d0ad31aa2dc2aeea346e35</td>
+</tr>
+<tr>
+<td>secret-key</td>
+<td>SECK-119e1c847b50352ea1eb32ccba5ecd71</td>
+</tr>
+<tr>
+<td>webhook-hash</td>
+<td>TEST-DP-fu394jn2o23odko2i3</td>
+</tr>
+</tbody></table>
+
+<h2 id="available-test-api-endpoints">Available Test Api Endpoints</h2>
+
+<h3 id="test-collections-api">Test Collections API</h3>
+
+<p>https://dashboard.dusupay.com/api-sandbox/v1/collections</p>
+
+<h3 id="test-payouts-api">Test Payouts API</h3>
+
+<p>https://dashboard.dusupay.com/api-sandbox/v1/payouts</p>
+
       </div>
       <div class="dark-box">
           <div class="lang-selector">
