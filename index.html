@@ -57,7 +57,7 @@
 
 <ol>
 <li>Sign into your Dusupay account and create a new merchant account if you do not have one already.</li>
-<li>Your account can instantly receive payments as soons as it&rsquo;s created.<br> 
+<li>Your account can instantly receive payments as soon as it&rsquo;s created.<br> 
 However, you will need your new merchant account approved to make payouts or get settled. You can contact us at info@dusupay.com regarding this.</li>
 </ol>
 
@@ -67,7 +67,7 @@ However, you will need your new merchant account approved to make payouts or get
 
 <ul>
 <li>content-type: application/json</li>
-<li>All request date is expected in json format</li>
+<li>All request data is expected in json format</li>
 </ul>
 
 <h3 id="base-url">Base Url</h3>
@@ -162,13 +162,13 @@ However, you will need your new merchant account approved to make payouts or get
 <h2 id="at-collection">At Collection</h2>
 
 <ul>
-<li>Only merchant account <code class="prettyprint">api_key</code> should be included in the request parameters.</li>
+<li>Only the merchant account <code class="prettyprint">api_key</code> data property should be included in the request parameters.</li>
 </ul>
 
 <h2 id="at-payout">At Payout</h2>
 
 <ul>
-<li>Both merchant account <code class="prettyprint">api_key</code> and <code class="prettyprint">secret-key</code> are required.</li>
+<li>Both merchant account <code class="prettyprint">api_key</code> data property and <code class="prettyprint">secret-key</code> header are required.</li>
 </ul>
 
 <h3 id="note">Note</h3>
@@ -1125,6 +1125,53 @@ e.g <b>&ldquo;webhook-hash: myWebhookHashSetInTheMerchantAccount&rdquo; </b></p>
 <h3 id="test-payouts-api">Test Payouts API</h3>
 
 <p>https://dashboard.dusupay.com/api-sandbox/v1/payouts</p>
+
+          <h1 id="faq-frequently-asked-questions">FAQ -  Frequently Asked Questions</h1>
+
+<h2 id="1-why-provider_id-is-required-even-for-mobile-money-api-requests">1. Why <code class="prettyprint">provider_id</code> is required even for <code class="prettyprint">mobile money</code> api requests</h2>
+
+<p>Adopting the idea of letting the customer choose the provider at all times early enough gives you more control on what extra data to ask from the client for those exceptional operators like Vodafone in Ghana.
+<br><br>
+As we add more operators, extra data might be required to be picked from the customer depending on the operator. Therefore it&rsquo;s necessary to be aware of the operator in action.
+<br><br></p>
+
+<h3 id="therefore-the-checkout-flow-would-look-like-below">Therefore the checkout flow would look like below;</h3>
+
+<ul>
+<li>The customer chooses to pay at ckeckout. <br></li>
+<li>The customer chooses a country to pay from if not known already e.g Uganda <br></li>
+<li>The customer chooses payment method for the country selected <br>e.g <code class="prettyprint">mobile_money</code> - Mobile Money <br></li>
+<li>The customer chooses provider e.g <code class="prettyprint">airtel_ug</code> - Airtel Money Uganda
+<br><br>
+You could also combine the method and provider such that the customer only chooses the provider. Using the <code class="prettyprint">provider_id</code> selected, you can determine the <code class="prettyprint">method</code> it belongs to. You would need to maintain a list of the payment options you want the customer to choose from that helps you determine the provider method. It&rsquo;s all up to you and the customer experience.
+<br><br>
+Since you now know the provider selected, you can validate the account number that will be entered next if necessary and further ask for extra data if any is required for a given provider. <br>
+e.g You can now go ahead and tell the client that selected <code class="prettyprint">vodafone_gh - Ghana</code> to generate a voucher and enter it in a given field then you submit it along with the request.
+<br><br>
+It&rsquo;s up to you to design the interface to give the customer better checkout experience.</li>
+</ul>
+
+<h2 id="2-are-all-funds-collected-via-different-operators-provider_id-in-the-same-country-combine">2. Are all funds collected via different operators/provider_id in the same country combine.</h2>
+
+<h3 id="yes">Yes.</h3>
+
+<p>When one customer pays 1,000 UGX via <code class="prettyprint">airtel_ug</code> and another pays 2,000 UGX via <code class="prettyprint">mtn_ug</code>, your balance will reflect 3,000 UGX in the UGX subaccount under your merchant account. 
+<br><br>This holds true with the assumption that there were zero transaction fees or the customer paid the transaction fees.</p>
+
+<h2 id="3-are-payouts-now-instant">3. Are payouts now instant.</h2>
+
+<h3 id="yes-and-no">Yes and no.</h3>
+
+<p>Most of the <code class="prettyprint">mobile_money</code> payouts are instant, 90% of most of the time. The other lag is based on the speed of the service provider/operator enabling the payout.
+<br>However, our system releases them instantly to be processed and paid out.</p>
+
+<p><br>
+For some countries like <code class="prettyprint">South Africa</code>. Our partner could take 2-4 days for the transaction to complete or reflect as complete in our system. 
+<br><br>But most of the partners will complete the bank payout between instant e.g <code class="prettyprint">Nigeria</code> and one day.</p>
+
+<h2 id="4-where-are-the-old-dusupay-api-doc">4. Where are the old dusupay api doc.</h2>
+
+<p>https://dusupay.com/docs/build</p>
 
       </div>
       <div class="dark-box">
