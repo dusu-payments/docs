@@ -1019,6 +1019,102 @@ e.g <b>&ldquo;webhook-hash: myWebhookHashSetInTheMerchantAccount&rdquo; </b></p>
 </tr>
 </tbody></table>
 
+<h3 id="supported-countries">Supported countries</h3>
+
+<table><thead>
+<tr>
+<th>code</th>
+<th>name</th>
+<th>Method</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>UG</td>
+<td>Uganda</td>
+<td>- MOBILE_MONEY (Collection, Payout)<br> - CARD (Collection)<br> - BANK(Payout)</td>
+</tr>
+<tr>
+<td>KE</td>
+<td>Kenya</td>
+<td>- MOBILE_MONEY (Collection, Payout)<br> - CARD (Collection)<br> - BANK(Payout)</td>
+</tr>
+<tr>
+<td>RW</td>
+<td>Rwanda</td>
+<td>- MOBILE_MONEY (Collection, Payout)</td>
+</tr>
+<tr>
+<td>GH</td>
+<td>Ghana</td>
+<td>- MOBILE_MONEY (Collection, Payout)<br> - CARD (Collection)<br> - BANK(Payout)</td>
+</tr>
+<tr>
+<td>CM</td>
+<td>Cameroon</td>
+<td>- MOBILE_MONEY (Collection, Payout)<br></td>
+</tr>
+<tr>
+<td>ZA</td>
+<td>South Africa</td>
+<td>- BANK (Collection, Payout)</td>
+</tr>
+<tr>
+<td>NG</td>
+<td>Nigeria</td>
+<td>- CARD(Collection)<br> - BANK (Collection, Payout)<br></td>
+</tr>
+<tr>
+<td>ZM</td>
+<td>Zambia</td>
+<td>- MOBILE_MONEY (Collection, Payout)<br></td>
+</tr>
+<tr>
+<td>SL</td>
+<td>Sierra Leone</td>
+<td>- MOBILE_MONEY (Payout)<br> - CARD (Collection)<br> - Bank (Payout)</td>
+</tr>
+<tr>
+<td>US</td>
+<td>U.S.A</td>
+<td>- CARD (Collection)<br></td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>For other countries that you might want to get paid, use the <code class="prettyprint">CARD</code> payment <code class="prettyprint">method</code> with provider_id: <code class="prettyprint">international_usd</code>. All funds will be collected as USD. This supports VISA and Mastercard.</li>
+</ul>
+
+<h3 id="comming-soon">Comming soon</h3>
+
+<h4 id="west-african-cfa-franc-xof">West African CFA franc - XOF</h4>
+
+<ul>
+<li>Benin</li>
+<li>Burkina Faso</li>
+<li>Guinea-Bissau</li>
+<li>Ivory Coast </li>
+<li>Mali, Niger</li>
+<li>Senegal </li>
+<li>Togo</li>
+</ul>
+
+<h4 id="central-african-cfa-franc-xaf">Central African CFA franc - XAF</h4>
+
+<ul>
+<li>Central African Republic </li>
+<li>Chad</li>
+<li>Republic of the Congo</li>
+<li>Equatorial Guinea </li>
+<li>Gabon</li>
+</ul>
+
+<h4 id="cash-payments">Cash payments</h4>
+
+<ul>
+<li>We are working to enable customers to pay you by <code class="prettyprint">CASH</code> as a <code class="prettyprint">collection</code> method</li>
+<li>We are working to enable you to pay customers by <code class="prettyprint">CASH</code> as a <code class="prettyprint">payout</code> method</li>
+</ul>
+
           <h1 id="account-balance">Account Balance</h1>
 
 <ul>
