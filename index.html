@@ -1251,7 +1251,8 @@ Otherwise we will keep calling your endpoint at an interval of 10 minutes for 3 
 <li>We will include a header called <code>webhook-hash</code> in the request sent to the callback url.
 e.g <b>&quot;webhook-hash: XXXX&quot;</b>
 <br><br></li>
-<li>You should check to make sure the <code>webhook-hash</code> we sent matches what was set under your merchant account before giving value to the customer.</li>
+<li><p>You should check to make sure the <code>webhook-hash</code> we sent matches what was set under your merchant account before giving value to the customer.</p></li>
+<li><p>We <code>do not</code> generate or provide you the <code>webhook hash</code>. You are expected to simply generate a random string that cannot be guessed and use it as the webhook hash value wherever needed.</p></li>
 </ol>
 <h2 id='responding-to-webhooks'>Responding to webhooks</h2>
 <ul>
