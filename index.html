@@ -435,16 +435,22 @@
             <a href="#faq-frequently-asked-questions" class="toc-h1 toc-link" data-title="FAQ - Frequently Asked Questions">FAQ - Frequently Asked Questions</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#1-why-provider_id-is-required-even-for-mobile-money-api-requests" class="toc-h2 toc-link" data-title="1. Why provider_id is required even for mobile money api requests">1. Why provider_id is required even for mobile money api requests</a>
+                    <a href="#1-where-do-i-find-my-webhook-hash" class="toc-h2 toc-link" data-title="1. Where do i find my webhook hash">1. Where do i find my webhook hash</a>
                   </li>
                   <li>
-                    <a href="#2-are-all-funds-collected-via-different-operators-provider_id-in-the-same-country-combine" class="toc-h2 toc-link" data-title="2. Are all funds collected via different operators/provider_id in the same country combine.">2. Are all funds collected via different operators/provider_id in the same country combine.</a>
+                    <a href="#2-why-provider_id-is-required-even-for-mobile-money-api-requests" class="toc-h2 toc-link" data-title="2. Why provider_id is required even for mobile money api requests">2. Why provider_id is required even for mobile money api requests</a>
                   </li>
                   <li>
-                    <a href="#3-are-payouts-now-instant" class="toc-h2 toc-link" data-title="3. Are payouts now instant.">3. Are payouts now instant.</a>
+                    <a href="#3-are-all-funds-collected-via-different-operators-provider_id-in-the-same-country-combine" class="toc-h2 toc-link" data-title="3. Are all funds collected via different operators/provider_id in the same country combine.">3. Are all funds collected via different operators/provider_id in the same country combine.</a>
                   </li>
                   <li>
-                    <a href="#4-where-are-the-old-dusupay-api-doc" class="toc-h2 toc-link" data-title="4. Where are the old dusupay api doc.">4. Where are the old dusupay api doc.</a>
+                    <a href="#4-are-payouts-now-instant" class="toc-h2 toc-link" data-title="4. Are payouts now instant.">4. Are payouts now instant.</a>
+                  </li>
+                  <li>
+                    <a href="#5-where-are-the-old-dusupay-api-doc" class="toc-h2 toc-link" data-title="5. Where are the old dusupay api doc.">5. Where are the old dusupay api doc.</a>
+                  </li>
+                  <li>
+                    <a href="#6-fnb-bank-south-africa-01-invalid-to-product-number-one-of-our-clients-face-the-error-when-choosing-fnb-bank-for-deposit-what-does-it-mean-what-can-we-recommend-to-the-client" class="toc-h2 toc-link" data-title="6. FNB Bank South Africa - 01 Invalid To Product Number. One of our clients face the error when choosing FNB bank for deposit. What does it mean? What can we recommend to the client?">6. FNB Bank South Africa - 01 Invalid To Product Number. One of our clients face the error when choosing FNB bank for deposit. What does it mean? What can we recommend to the client?</a>
                   </li>
               </ul>
           </li>
@@ -1345,6 +1351,8 @@ e.g <b>&quot;webhook-hash: XXXX&quot;</b>
 <li>field <b><code>customer_charged</code></b> is <b><code>NOT</code></b> returned in a payout IPN</li>
 </ul>
 <h1 id='payment-options-providers-api'>Payment Options/providers Api</h1>
+<p>Use this api to get <code>provider_ids</code>, <code>bank codes</code> and <code>bank branches</code> where applicable.</p>
+
 <ul>
 <li>content-type: application/json</li>
 <li>endpoint: /v1/payment-options/{{type}}/{{method}}/{{country}}?api_key={{api_key}}</li>
@@ -1738,7 +1746,15 @@ We will randomly send <code>COMPLETE</code> or <code>FAILED</code> IPNs to your 
 <p>https://dashboard.dusupay.com/api-sandbox/v1/collections</p>
 <h3 id='test-payouts-api'>Test Payouts API</h3>
 <p>https://dashboard.dusupay.com/api-sandbox/v1/payouts</p>
-<h1 id='faq-frequently-asked-questions'>FAQ - Frequently Asked Questions</h1><h2 id='1-why-provider_id-is-required-even-for-mobile-money-api-requests'>1. Why provider_id is required even for mobile money api requests</h2>
+<h1 id='faq-frequently-asked-questions'>FAQ - Frequently Asked Questions</h1><h2 id='1-where-do-i-find-my-webhook-hash'>1. Where do i find my webhook hash</h2>
+<p>You are expected to simply generate a random string that cannot be guessed and used as the webhook hash value wherever needed. </p>
+
+<p><br><br> This is used to verify that the callback request was sent from dusupay and your app should accept it since only your app and our system know the webhook hash value.</p>
+
+<p><br><br>All you have to make sure is that the webhook hash used on the dusupay dashboard matches the one expected by your app or website since it will be included in the webhook request header sent to your callback or webhook url.</p>
+
+<p><br><br>Make sure you also avoid leading space when Copying and Pasting the webhook hash between your app and ours system.</p>
+<h2 id='2-why-provider_id-is-required-even-for-mobile-money-api-requests'>2. Why provider_id is required even for mobile money api requests</h2>
 <p>Adopting the idea of letting the customer choose the provider at all times early enough gives you more control on what extra data to ask from the client for those exceptional operators like Vodafone in Ghana.
 <br><br>
 As we add more operators, extra data might be required to be picked from the customer depending on the operator. Therefore it’s necessary to be aware of the operator in action.</p>
@@ -1757,19 +1773,29 @@ e.g You can now go ahead and tell the client that selected vodafone_gh - Ghana t
 <br><br>
 It’s up to you to design the interface to give the customer better checkout experience.</li>
 </ul>
-<h2 id='2-are-all-funds-collected-via-different-operators-provider_id-in-the-same-country-combine'>2. Are all funds collected via different operators/provider_id in the same country combine.</h2><h3 id='yes'>Yes.</h3>
+<h2 id='3-are-all-funds-collected-via-different-operators-provider_id-in-the-same-country-combine'>3. Are all funds collected via different operators/provider_id in the same country combine.</h2><h3 id='yes'>Yes.</h3>
 <p>When one customer pays 1,000 UGX via airtel_ug and another pays 2,000 UGX via mtn_ug, your balance will reflect 3,000 UGX in the UGX subaccount under your merchant account.
 <br><br>
 This holds true with the assumption that there were zero transaction fees or the customer paid the transaction fees.</p>
-<h2 id='3-are-payouts-now-instant'>3. Are payouts now instant.</h2><h3 id='yes-and-no'>Yes and no.</h3>
+<h2 id='4-are-payouts-now-instant'>4. Are payouts now instant.</h2><h3 id='yes-and-no'>Yes and no.</h3>
 <p>Most of the mobile_money payouts are instant, 90% of most of the time. The other lag is based on the speed of the service provider/operator enabling the payout. <br>
 However, our system releases them instantly to be processed and paid out.
 <br><br>
 For some countries like <code>South Africa</code>. Our partner could take 2-4 days for the transaction to complete or reflect as complete in our system.</p>
 
 <p>But most of the partners will complete the bank payout between instant e.g <code>Nigeria</code> and one day.</p>
-<h2 id='4-where-are-the-old-dusupay-api-doc'>4. Where are the old dusupay api doc.</h2>
+<h2 id='5-where-are-the-old-dusupay-api-doc'>5. Where are the old dusupay api doc.</h2>
 <p>https://dusupay.com/docs/build</p>
+<h2 id='6-fnb-bank-south-africa-01-invalid-to-product-number-one-of-our-clients-face-the-error-when-choosing-fnb-bank-for-deposit-what-does-it-mean-what-can-we-recommend-to-the-client'>6. FNB Bank South Africa - 01 Invalid To Product Number. One of our clients face the error when choosing FNB bank for deposit. What does it mean? What can we recommend to the client?</h2>
+<p>Does the client have any other listed beneficiaries on their account?  <br>
+The error is from FNB . It looks like they are doing a CDV check for products on the account number. Then it fails hence they are unable to complete the payment.</p>
+
+<p><br><br>
+The issue is with the clients bank account/FNB not with EFT secure. We think the BANK account verification FNB does fails. It could be because there are other beneficiaries on the account.
+<br><br>
+Other bank accounts or banks should work. </p>
+
+<p>Note that during the EFT secure payment, if the bank is unable to process payment for any reason, it will fail.</p>
 <h1 id='plugins-and-libraries'>Plugins And Libraries</h1><h2 id='plugins'>Plugins</h2>
 <table><thead>
 <tr>
