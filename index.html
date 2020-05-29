@@ -615,7 +615,7 @@ However, to have your account fully approved, contact legal@dusupay.com.</p></li
 <h3 id='callback-webhook'>Callback/Webhook</h3>
 <ul>
 <li><p>The Notification data is POSTED to a callback/webhook url that you set under your merchant account API settings. </p></li>
-<li><p>We cannot notify more than two urls. Both collection, payout and refund notifications are notified to the same url. We only include the transaction_type and recommend that you rely on your transaction reference returned back to you to identify the type of transaction.</p></li>
+<li><p>We cannot notify more than two urls. Both collection, payout and refund notifications are notified to the same url. We include the transaction_type that can tell the type of transaction.</p></li>
 </ul>
 <h3 id='payouts'>Payouts</h3>
 <ul>
@@ -1915,8 +1915,6 @@ We will randomly send <code>COMPLETE</code> or <code>FAILED</code> IPNs to your 
 </ul>
 <h2 id='note'>Note</h2>
 <ul>
-<li>Some data fields might be absent/empty when testing with the sandbox e.g <code>transaction_type</code>, <code>instructions</code>, <code>institution_name</code>. <br>This is because the sandbox can be outdated when it comes to fields added on the live platform from time to time. <br>The best solution for this is to modify the JSON data the sandbox api returns and include them statically for testing purposes and then remove them when you go live since the fields are included when using the live api as seen in the response data samples.</li>
-<li>Not all payment options are available on the sandbox as it&#39;s rarely updated. </li>
 <li>The sandbox does not store or hold any data. Therefore you should not expect us to check for any sandbox transaction or expect to signup anywhere to access the sandbox.</li>
 </ul>
 <h2 id='base-url'>Base URL</h2>
