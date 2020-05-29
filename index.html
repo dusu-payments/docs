@@ -302,6 +302,9 @@
                     <a href="#card-payments" class="toc-h2 toc-link" data-title="Card Payments">Card Payments</a>
                   </li>
                   <li>
+                    <a href="#crypto-payments" class="toc-h2 toc-link" data-title="Crypto Payments">Crypto Payments</a>
+                  </li>
+                  <li>
                     <a href="#redirect-url" class="toc-h2 toc-link" data-title="Redirect URL">Redirect URL</a>
                   </li>
                   <li>
@@ -373,22 +376,10 @@
             <a href="#payment-options-providers-api" class="toc-h1 toc-link" data-title="Payment Options/providers Api">Payment Options/providers Api</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#request-headers" class="toc-h2 toc-link" data-title="Request Headers">Request Headers</a>
+                    <a href="#description" class="toc-h2 toc-link" data-title="Description">Description</a>
                   </li>
                   <li>
-                    <a href="#request-query-parameters" class="toc-h2 toc-link" data-title="Request Query Parameters">Request Query Parameters</a>
-                  </li>
-                  <li>
-                    <a href="#request-url-parameters" class="toc-h2 toc-link" data-title="Request Url Parameters">Request Url Parameters</a>
-                  </li>
-                  <li>
-                    <a href="#response-fields" class="toc-h2 toc-link" data-title="Response Fields">Response Fields</a>
-                  </li>
-                  <li>
-                    <a href="#supported-countries" class="toc-h2 toc-link" data-title="Supported countries">Supported countries</a>
-                  </li>
-                  <li>
-                    <a href="#comming-soon" class="toc-h2 toc-link" data-title="Comming soon">Comming soon</a>
+                    <a href="#request-description" class="toc-h2 toc-link" data-title="Request Description">Request Description</a>
                   </li>
               </ul>
           </li>
@@ -744,7 +735,7 @@ For payments that do not need to be completed from the web, the <code>payment_ur
     </span><span class="s2">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pk_eridsdsde23e23e2. Get this from your merchant account settings"</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MOBILE_MONEY/CARD/BANK"</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MOBILE_MONEY/CARD/BANK/CRYPTO"</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"e.g airtel_ug, mtn_ug. Get list of providers from the Providers API"</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"account_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"256777111000"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"merchant_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Your payment reference"</span><span class="p">,</span><span class="w"> 
@@ -780,7 +771,7 @@ For payments that do not need to be completed from the web, the <code>payment_ur
 <tr>
 <td>method</td>
 <td>string, required</td>
-<td><code>MOBILE_MONEY</code>, <code>CARD</code>, <code>BANK</code></td>
+<td><code>MOBILE_MONEY</code>, <code>CARD</code>, <code>BANK</code>, <code>CRYPTO</code></td>
 </tr>
 <tr>
 <td>provider_id</td>
@@ -790,7 +781,7 @@ For payments that do not need to be completed from the web, the <code>payment_ur
 <tr>
 <td>account_number</td>
 <td>string, required for MOBILE_MONEY</td>
-<td>Provide an internationally formatted number if the payment method is <code>MOBILE_MONEY</code> e.g 256777111777<br><br>It is not required for <code>CARD</code> and <code>BANK</code> payment methods unless specified in the Exceptional Parameters that follow merchant_reference</td>
+<td>Provide an internationally formatted number if the payment method is <code>MOBILE_MONEY</code> e.g 256777111777<br><br>It is not required for <code>CARD</code>, <code>BANK</code> and <code>CRYPTO</code> payment methods unless specified in the Exceptional Parameters that follow merchant_reference</td>
 </tr>
 <tr>
 <td>narration</td>
@@ -800,7 +791,7 @@ For payments that do not need to be completed from the web, the <code>payment_ur
 <tr>
 <td>redirect_url</td>
 <td>string, optional for <code>MOBILE_MONEY</code></td>
-<td>Required for <code>BANK</code> and <code>CARD</code> collections. <br><br>Used to redirect the client after a payment has been completed or canceled via the <code>payment_url</code> if returned in the request’s response.<br><br>When a request is made, a payment link is returned in the response if the payment needs to be completed by the client via the <code>payment_url</code> returned.<br><br>Some of the payment methods that would return a payment link include, online banking methods, visa 3d, and any other the require input via a web interface.</td>
+<td>Required for <code>BANK</code>, <code>CARD</code> and  <code>CRYPTO</code> collections. <br><br>Used to redirect the client after a payment has been completed or canceled via the <code>payment_url</code> if returned in the request’s response.<br><br>When a request is made, a payment link is returned in the response if the payment needs to be completed by the client via the <code>payment_url</code> returned.<br><br>Some of the payment methods that would return a payment link include, online banking methods, visa 3d, and any other the require input via a web interface.</td>
 </tr>
 <tr>
 <td>account_name</td>
@@ -981,9 +972,39 @@ For payments that do not need to be completed from the web, the <code>payment_ur
 <ul>
 <li>Use the <a href="#payment-options">payment options api</a> to get per country card options</li>
 </ul>
+<h2 id='crypto-payments'>Crypto Payments</h2>
+<ul>
+<li><code>CRYPTO</code> should be passed as the method.</li>
+<li>A <code>payment_url</code> will be returned which you will redirect the customer to complete the payment</li>
+<li><code>redirect_url</code> should be passed too. This is where the customer will be redirected after the payment has completed or been cancelled</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>provider_id</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>btc_usd</td>
+<td>Crypto payments to collect USD</td>
+</tr>
+<tr>
+<td>btc_eur</td>
+<td>Crypto payments to collect EUR</td>
+</tr>
+<tr>
+<td>btc_gbp</td>
+<td>Crypto payments to collect GBP</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>Use the <a href="#payment-options">payment options api</a> to get per country crypto options</li>
+</ul>
 <h2 id='redirect-url'>Redirect URL</h2><h3 id='description'>Description</h3>
 <ul>
-<li><code>BANK</code> and <code>CARD</code> payment options are processed from the browser or webview.</li>
+<li><code>BANK</code>, <code>CARD</code> and <code>CRYPTO</code> payment options are processed from the browser or webview.</li>
 <li>A <code>redirect_url</code> needs to be provided when making a collection request.</li>
 <li>When a customer completes, cancels or fails to make a payment, they will be redirected to the <code>redirect_url</code> that was passed.</li>
 </ul>
@@ -1465,9 +1486,16 @@ e.g <b>&quot;webhook-hash: XXXX&quot;</b>
     </span><span class="s2">"account_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4860610032773134"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Refund Processed Successfully"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><h1 id='payment-options-providers-api'>Payment Options/providers Api</h1>
-<p>Use this api to get <code>provider_ids</code>, <code>bank codes</code> and <code>bank branches</code> where applicable.</p>
-
+</span></code></pre><h1 id='payment-options-providers-api'>Payment Options/providers Api</h1><h2 id='description'>Description</h2>
+<ul>
+<li>Use this api to get <code>provider_ids</code>, <code>bank codes</code> and <code>bank branches</code> where applicable.</li>
+<li>Each <code>provider_id</code> used to process a payment has a base currency e.g <code>mtn_ug</code> has <code>UGX</code>, <code>mtn_cm</code> has <code>XAF</code>, <code>international_usd</code> has <code>USD</code>.</li>
+<li>This means the merchant sub-account affected by the transaction is one that matches the base currency once a transaction completes. </li>
+<li>This further means that a collection using <code>mtn_ug</code> provider id will credit the <code>UGX</code> sub-account while a payout of the same will debit the <code>UGX</code> sub-account balance.</li>
+<li>The request currency does not matter because the amount in request currency is converted to the <code>provider_id</code> base currency. <br>
+e.g if you request a <code>collection of 10 USD</code> using the provider_id <code>mtn_ug</code>, we will convert the 10 USD to UGX, process and debit the customer in UGX because it&#39;s what the <code>provider_id</code> supports and credit your <code>UGX</code> sub-account which is what matches the base currency of the <code>provider_id</code></li>
+</ul>
+<h2 id='request-description'>Request Description</h2>
 <ul>
 <li>content-type: application/json</li>
 <li>endpoint: /v1/payment-options/{{type}}/{{method}}/{{country}}?api_key={{api_key}}</li>
@@ -1552,6 +1580,11 @@ e.g <b>&quot;webhook-hash: XXXX&quot;</b>
 <td></td>
 <td>CARD,</td>
 <td>For Card</td>
+</tr>
+<tr>
+<td></td>
+<td>CRYPTO,</td>
+<td>For Crypto Currency</td>
 </tr>
 <tr>
 <td>country</td>
@@ -1646,17 +1679,17 @@ e.g <b>&quot;webhook-hash: XXXX&quot;</b>
 <tr>
 <td>US</td>
 <td>U.S.A</td>
-<td>- CARD (Collection) <br>- BANK(Payout)</td>
+<td>- CARD, CRYPTO (Collection) <br>- BANK(Payout)</td>
 </tr>
 <tr>
 <td>GB</td>
 <td>United Kingdom</td>
-<td>CARD (Collection) <br>- BANK (payout)</td>
+<td>CARD, CRYPTO (Collection) <br>- BANK (payout)</td>
 </tr>
 <tr>
 <td>EU</td>
 <td>Europe</td>
-<td>CARD (Collection) <br>- BANK (payout)</td>
+<td>CARD, CRYPTO (Collection) <br>- BANK (payout)</td>
 </tr>
 </tbody></table>
 <h3 id='comming-soon'>Comming soon</h3><h4 id='west-african-cfa-franc-xof'>West African CFA franc - XOF</h4>
