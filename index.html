@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Dusupay Document - Merchant API Document</title>
+    <title>Dusupay Documentation - Merchant API Documentation</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -361,6 +361,9 @@
                   <li>
                     <a href="#sample-payout-ipn-data" class="toc-h2 toc-link" data-title="Sample Payout IPN Data">Sample Payout IPN Data</a>
                   </li>
+                  <li>
+                    <a href="#sample-refund-ipn-data" class="toc-h2 toc-link" data-title="Sample Refund IPN Data">Sample Refund IPN Data</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -421,6 +424,9 @@
                     <a href="#description" class="toc-h2 toc-link" data-title="Description">Description</a>
                   </li>
                   <li>
+                    <a href="#note" class="toc-h2 toc-link" data-title="Note">Note</a>
+                  </li>
+                  <li>
                     <a href="#base-url" class="toc-h2 toc-link" data-title="Base URL">Base URL</a>
                   </li>
                   <li>
@@ -455,6 +461,9 @@
                   <li>
                     <a href="#7-fnb-bank-south-africa-01-invalid-to-product-number-one-of-our-clients-face-the-error-when-choosing-fnb-bank-for-deposit-what-does-it-mean-what-can-we-recommend-to-the-client" class="toc-h2 toc-link" data-title="7. FNB Bank South Africa - 01 Invalid To Product Number. One of our clients face the error when choosing FNB bank for deposit. What does it mean? What can we recommend to the client?">7. FNB Bank South Africa - 01 Invalid To Product Number. One of our clients face the error when choosing FNB bank for deposit. What does it mean? What can we recommend to the client?</a>
                   </li>
+                  <li>
+                    <a href="#8-alidropship" class="toc-h2 toc-link" data-title="8. Alidropship">8. Alidropship</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -476,7 +485,7 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>This Documentation is dedicated to dusupay Merchants or developers with websites/webapps that have/need to integrate dusupay Payment APIs available.</p>
+<p>This Documentation is dedicated to dusupay Merchants or developers with websites/webapps that have/need to integrate dusupay for payments processing.</p>
 
 <p>Welcome to the Dusupay&#39;s Merchant/Website API Doc! Use this Documentation to send and receive funds on your website or webapp in a more reliable manner.</p>
 
@@ -761,27 +770,40 @@ For payments that do not need to be completed from the web, the <code>payment_ur
 <td>String. Customer should <b><code>dial *110#</code></b> to generate a transaction voucher and provide it prior to the request</td>
 </tr>
 </tbody></table>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">202</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"accepted"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Request Accepted."</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">226</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"request_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"request_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"account_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">737.9934</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"account_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UGX"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"transaction_fee"</span><span class="p">:</span><span class="w"> </span><span class="mf">21.4018</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"total_credit"</span><span class="p">:</span><span class="w"> </span><span class="mf">716.5916</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mtn_ug"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"merchant_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"76859aae-f148-48c5-9901-2e474cf19b71"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"internal_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DUSUPAY405GZM1G5JXGA71IK"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"transaction_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PENDING"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"customer_charged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"payment_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This only exists if the payment needs to be completed from a web browser."</span><span class="w">
-    </span><span class="p">}</span><span class="w">
+<h2 id='sample-response'>Sample Response</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">202</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"accepted"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transaction Initiated"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">226</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"request_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"request_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"account_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">737.9934</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"account_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UGX"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"transaction_fee"</span><span class="p">:</span><span class="w"> </span><span class="mf">21.4018</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"total_credit"</span><span class="p">:</span><span class="w"> </span><span class="mf">716.5916</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mtn_ug"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"merchant_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"76859aae-f148-48c5-9901-2e474cf19b71"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"internal_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DUSUPAY405GZM1G5JXGA71IK"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"transaction_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PENDING"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"transaction_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"collection"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transaction Initiated"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"customer_charged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"payment_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This only exists if the payment needs to be completed from a web browser."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"step_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ensure that you have sufficient balance on your MTN Mobile Money account"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"step_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approve the payment request sent to your phone"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"customer_charged"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><h2 id='sample-response'>Sample Response</h2>
+</span></code></pre>
 <table><thead>
 <tr>
 <th>Parameters</th>
@@ -834,11 +856,13 @@ For payments that do not need to be completed from the web, the <code>payment_ur
 </tr>
 <tr>
 <td>payment_url</td>
-<td>This is a url where the customer should be redirect to complete the payment.<br><br>This link is only returned if the payment has to be completed from a web browser. Therefore always redirect the user to it whenever it’s returned.</td>
+<td><code>Optional</code> This is a url where the customer should be redirect to complete the payment.<br><br>It&#39;s not mandatory for us to return a value for this field. It&#39;s only returned if the payment has to be completed from a web browser. <br><br>Therefore always redirect the user to it whenever it contains a url value otherwise tell the customer to approve the payment from their phone number if it&#39;s mobile money or inform them that their transaction is being processed. <br>Once we send you an <code>IPN</code> or <code>webhook data</code> to your <code>webhook/callback url</code>, you can then inform the customer that the payment has <code>completed</code> or <code>failed</code>.<br><br>This is common for online banking.</td>
+</tr>
+<tr>
+<td>instructions</td>
+<td><code>Optional</code> This is only returned where we see fit. This means it could be empty in the response. Whenever it&#39;s returned, Please ensure to show the instructions returned such that the customer is aware of what to do next. <br><br>This is mainly used for mobile money payments or requests that return an empty <code>payment_url</code>. <br><br> We recommend that you display the instructions to the customer as a pop-up modal or new screen with a button that leads them to another screen where they can view the current state of their transaction. <br>This will initally be Pending/Processing and once we notify you that the transaction has completed or failed, you can can show it to the customer with the appropriate message returned from our api data.</td>
 </tr>
 </tbody></table>
-
-<p><br><br>This is common for online banking.</p>
 <h2 id='card-payments'>Card Payments</h2>
 <ul>
 <li><code>CARD</code> should be passed as the method.</li>
@@ -1321,18 +1345,24 @@ e.g <b>&quot;webhook-hash: XXXX&quot;</b>
     </span><span class="s2">"account_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UGX"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"transaction_fee"</span><span class="p">:</span><span class="w"> </span><span class="mf">21.4018</span><span class="p">,</span><span class="w">
     </span><span class="s2">"total_credit"</span><span class="p">:</span><span class="w"> </span><span class="mf">716.5916</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"customer_charged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mtn_ug"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"merchant_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"76859aae-f148-48c5-9901-2e474cf19b71"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"internal_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DUSUPAY405GZM1G5JXGA71IK"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"transaction_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"COMPLETED"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"transaction_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"collection"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"customer_charged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transaction Completed Successfully"</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transaction Completed Successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"account_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"256777111786 - Optional"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"account_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"- Optional"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"institution_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MTN Mobile Money - Optional"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='note-2'>Note</h3>
 <ul>
-<li>field <b><code>total_credit</code></b> is returned in a collection IPN</li>
-<li>field <b><code>customer_charged</code></b> is returned in a collection IPN</li>
+<li>field <b><code>total_credit</code></b> is returned in a collection IPN only</li>
+<li>field <b><code>customer_charged</code></b> is returned in a collection IPN only</li>
+<li>field <b><code>account_number</code></b> is empty if we do not have the account number</li>
+<li>field <b><code>account_name</code></b> is empty if we do not have the account name</li>
+<li>field <b><code>institution_name</code></b> is empty if we do not have the institute name</li>
 </ul>
 <h2 id='sample-payout-ipn-data'>Sample Payout IPN Data</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">226</span><span class="p">,</span><span class="w">
@@ -1347,14 +1377,34 @@ e.g <b>&quot;webhook-hash: XXXX&quot;</b>
     </span><span class="s2">"internal_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DUSUPAY405GZM1G5JXGA71IK"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"transaction_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"COMPLETED"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"transaction_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"payout"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transaction Completed Successfully"</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transaction Completed Successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"account_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"256777111786 - Optional"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"account_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"- Optional"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"institution_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MTN Mobile Money - Optional"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='take-note'>Take note</h3>
 <ul>
-<li>field <b><code>total_debit</code></b> is returned in a payout IPN</li>
-<li>field <b><code>customer_charged</code></b> is <b><code>NOT</code></b> returned in a payout IPN</li>
+<li>field <b><code>total_debit</code></b> is returned in a payout/refund IPN only</li>
+<li>field <b><code>customer_charged</code></b> is <b><code>NOT</code></b> returned in a payout IPN only</li>
+<li>field <b><code>account_number</code></b> is empty if we do not have the account number</li>
+<li>field <b><code>account_name</code></b> is empty if we do not have the account name</li>
+<li>field <b><code>institution_name</code></b> is empty if we do not have the institute name</li>
 </ul>
-<h1 id='payment-options-providers-api'>Payment Options/providers Api</h1>
+<h2 id='sample-refund-ipn-data'>Sample Refund IPN Data</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">65205</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"refund_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">1054</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"refund_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UGX"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"transaction_fee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"total_debit"</span><span class="p">:</span><span class="w"> </span><span class="mi">1054</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"international_ugx"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"collection_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DUSUPAYXYXYXYXYXYXYXYXYX"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"internal_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RFD-DUSUPAYXYXYXYXYXYXYXYXYX-3486003"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"transaction_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"refund"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"transaction_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"COMPLETED"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"account_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4860610032773134"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Refund Processed Successfully"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h1 id='payment-options-providers-api'>Payment Options/providers Api</h1>
 <p>Use this api to get <code>provider_ids</code>, <code>bank codes</code> and <code>bank branches</code> where applicable.</p>
 
 <ul>
@@ -1724,6 +1774,12 @@ secret-key  | SECK3298j923  | Use your merchant account secret key</p>
 <li>This sandbox is intended to speed up your integration process.
 We will randomly send <code>COMPLETE</code> or <code>FAILED</code> IPNs to your <code>test_webhook_url</code> for test requests made.</li>
 </ul>
+<h2 id='note'>Note</h2>
+<ul>
+<li>Some data fields might be absent/empty when testing with the sandbox e.g <code>transaction_type</code>, <code>instructions</code>, <code>institution_name</code>. <br>This is because the sandbox can be outdated when it comes to fields added on the live platform from time to time. <br>The best solution for this is to modify the JSON data the sandbox api returns and include them statically for testing purposes and then remove them when you go live since the fields are included when using the live api as seen in the response data samples.</li>
+<li>Not all payment options are available on the sandbox as it&#39;s rarely updated. </li>
+<li>The sandbox does not store or hold any data. Therefore you should not expect us to check for any sandbox transaction or expect to signup anywhere to access the sandbox.</li>
+</ul>
 <h2 id='base-url'>Base URL</h2>
 <p>https://dashboard.dusupay.com/api-sandbox</p>
 <h2 id='test-credentials'>Test Credentials</h2>
@@ -1750,6 +1806,32 @@ We will randomly send <code>COMPLETE</code> or <code>FAILED</code> IPNs to your 
 <p>https://dashboard.dusupay.com/api-sandbox/v1/collections</p>
 <h3 id='test-payouts-api'>Test Payouts API</h3>
 <p>https://dashboard.dusupay.com/api-sandbox/v1/payouts</p>
+<h3 id='recommended-tests-for-the-sandbox'>Recommended tests for the sandbox</h3><h4 id='test-mobilemoney'>Test MobileMoney</h4>
+<ul>
+<li>Test with the provider <code>mtn_ug</code> and <code>mtn_gh</code>. This will make sure all the <code>mobile_money</code>  provider_id&#39;s will work correctly in production.</li>
+</ul>
+<h4 id='test-card'>Test Card</h4>
+<ul>
+<li>Test with the provider <code>international_usd</code>. This will make sure all the <code>card</code> provider_id&#39;s will work correctly in production.</li>
+</ul>
+<h4 id='test-paymenturl-returned'>Test PaymentURL returned</h4>
+<ul>
+<li>For all payments that need to be completed in the browser, we return a <code>payment_url</code> similar to how we return <code>payment_urls</code> when processing with cards.</li>
+<li>Therefore, all methods we add in the future that use a <code>payment_url</code> will work the same way as <code>card</code> payments. The processing flow will be the same.</li>
+<li>This means that you should always redirect the customer whenever you find the <code>payment_url</code> field populated with a url. </li>
+<li>This also means, in the event we get a mobile money option that uses <code>payment_url</code>, you will have nothing to change in how you will be handling the workflow.</li>
+</ul>
+<h4 id='test-callbacks'>Test Callbacks</h4>
+<ul>
+<li>When you make a request on the sandbox, we will randomly callback the <code>test_webhook_url</code> with failure or success to make sure you can handle both failed and successful transactions.</li>
+</ul>
+<h3 id='moving-to-production'>Moving to production.</h3>
+<ul>
+<li>Do not pass the <code>test_webhook_url</code> when using the production api. Instead, set the <code>webhook_url</code> under your merchant account &gt; Settings &gt; Api Settings &gt; Edit</li>
+<li>Replace the api credentials with those from your live merchant account</li>
+<li>Ensure that the api urls are correct and that they are the production urls</li>
+<li>Ensure that the api response data is nolonger manually modified with static values.</li>
+</ul>
 <h1 id='faq-frequently-asked-questions'>FAQ - Frequently Asked Questions</h1><h2 id='1-where-do-i-find-my-webhook-hash'>1. Where do i find my webhook hash</h2>
 <p>You are expected to simply generate a random string that cannot be guessed and used as the webhook hash value wherever needed. </p>
 
@@ -1788,6 +1870,9 @@ Since you now know the provider selected, you can validate the account number th
 e.g You can now go ahead and tell the client that selected vodafone_gh - Ghana to generate a voucher and enter it in a given field then you submit it along with the request.
 <br><br>
 It’s up to you to design the interface to give the customer better checkout experience.</li>
+<li>Once you have submited the transaction details to the api for processing, we return a <code>payment_url</code> where we expect you do redirect the customer and if it&#39;s empty, we usually return <code>instructions</code> to display to the customer. The <code>instructions</code> returned are mainly useful for async processing e.g mobile money transactions</li>
+<li>So if instructions are returned, we recommend that you add button on the screen that displays the <code>instructions</code> which leads them to a page that displays the status of the transaction <code>polled</code> or fetched from your application&#39;s Database.</li>
+<li>The transaction status will change when we notify you via the webhook/callback url set under your merchant account.</li>
 </ul>
 <h2 id='4-are-all-funds-collected-via-different-operators-provider_id-in-the-same-country-combine'>4. Are all funds collected via different operators/provider_id in the same country combine.</h2><h3 id='yes'>Yes.</h3>
 <p>When one customer pays 1,000 UGX via airtel_ug and another pays 2,000 UGX via mtn_ug, your balance will reflect 3,000 UGX in the UGX subaccount under your merchant account.
@@ -1812,6 +1897,20 @@ The issue is with the clients bank account/FNB not with EFT secure. We think the
 Other bank accounts or banks should work. </p>
 
 <p>Note that during the EFT secure payment, if the bank is unable to process payment for any reason, it will fail.</p>
+<h2 id='8-alidropship'>8. Alidropship</h2><h3 id='error-merchant-account-unknown'>Error - Merchant account unknown</h3>
+<ul>
+<li>Please turn off demo mode from your plugin settings</li>
+</ul>
+<h3 id='error-processing-payment'>Error Processing payment</h3>
+<ul>
+<li><p>If you are testing with mobile money, make sure that the charge amount is sufficient enough on your mobile money wallet.
+<br><br>We recommend that if you are testing, you create an item on your store with a small price that your mobile money wallet can afford to pay.</p></li>
+<li><p>Make sure that you have the payment method you are trying to use enabled under your merchant account. You would need to contact legal@dusupay.com for clarification.</p></li>
+</ul>
+<h3 id='card-payment-method-issue'>Card payment method issue</h3>
+<ul>
+<li>If you are trying to test with cards and you get an error whereby you do not even get the chance to enter card details anywhere, chances are that the card method is not enabled on your merchant account. You would need to contact legal@dusupay.com for clarification or to enable it. </li>
+</ul>
 <h1 id='plugins-and-libraries'>Plugins And Libraries</h1><h2 id='plugins'>Plugins</h2>
 <table><thead>
 <tr>
