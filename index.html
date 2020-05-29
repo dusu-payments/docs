@@ -236,6 +236,9 @@
                   <li>
                     <a href="#response-codes" class="toc-h2 toc-link" data-title="Response codes">Response codes</a>
                   </li>
+                  <li>
+                    <a href="#key-notes-in-a-nutshell" class="toc-h2 toc-link" data-title="Key notes in a nutshell">Key notes in a nutshell</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -418,6 +421,20 @@
               </ul>
           </li>
           <li>
+            <a href="#refund" class="toc-h1 toc-link" data-title="Refund">Refund</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#request-headers" class="toc-h2 toc-link" data-title="Request Headers">Request Headers</a>
+                  </li>
+                  <li>
+                    <a href="#query-parameters" class="toc-h2 toc-link" data-title="Query Parameters">Query Parameters</a>
+                  </li>
+                  <li>
+                    <a href="#note" class="toc-h2 toc-link" data-title="Note">Note</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#testing-sandbox" class="toc-h1 toc-link" data-title="Testing Sandbox">Testing Sandbox</a>
               <ul class="toc-list-h2">
                   <li>
@@ -586,6 +603,50 @@ However, to have your account fully approved, contact legal@dusupay.com.</p></li
 <h3 id='nb'>NB</h3>
 <ul>
 <li>These codes are effected at http level too.</li>
+</ul>
+<h2 id='key-notes-in-a-nutshell'>Key notes in a nutshell</h2><h3 id='redirection'>Redirection</h3>
+<ul>
+<li>For collections, always redirect the customer to the <code>payment_url</code> whenever it’s returned otherwise always display to them the instruction messages returned in the api response.</li>
+</ul>
+<h3 id='async-processing'>Async Processing</h3>
+<ul>
+<li>Whenever we receive a payment to process, we process it in the background(async) and then notify you when it succeeds or fails via your webhook/callback url/</li>
+</ul>
+<h3 id='callback-webhook'>Callback/Webhook</h3>
+<ul>
+<li><p>The Notification data is POSTED to a callback/webhook url that you set under your merchant account API settings. </p></li>
+<li><p>We cannot notify more than two urls. Both collection, payout and refund notifications are notified to the same url. We only include the transaction_type and recommend that you rely on your transaction reference returned back to you to identify the type of transaction.</p></li>
+</ul>
+<h3 id='payouts'>Payouts</h3>
+<ul>
+<li>For payouts, some api requests need extra information per country so you need to look out for such e.g Payouts in Ghana need branch_codes on top of the bank_code required. There is an api to avail both bank codes and branch codes where applicable.</li>
+</ul>
+<h3 id='ipn-security'>IPN Security</h3>
+<ul>
+<li>Api notifications from us might come from random servers of ours so to ensure that they are coming from us, you need to add a <code>webhook hash</code> as described in the docs. This is a secret key known between you and us that you should validate from your side when a notification is received. 
+<br><br>Dusupay does not generate it for you. You simply need to generate a random string of letters and numbers of atleast 16 characters that no one can guess and use it.</li>
+</ul>
+<h3 id='transaction-status-updates'>Transaction Status updates</h3>
+<ul>
+<li><p>Sometimes a request might complete and we later get notified that it failed. We will update and notify you again so you should not ignore these notifications.  </p></li>
+<li><p>The same applies to failed transactions that could later complete. You could log such unexpected scenarios on your side and seek better explanation where necessary from our support team or check the dashboard to confirm where necessary.</p></li>
+<li><p>Note: Payouts are sensitive therefore we always need to watch out for those that fail. We should be more hesitant to mark a payout as failed because it calls for a refund which the customer could payout out again. In the event that there is a resolution that actually the failed payout completed and hence the need to mark it completed, the customer might have received more than they should have. This will mean that the customer could have been paid more than they should hence the need to charge the customer again and debit their account on your platform to recover the double funds if this ever happens.</p></li>
+</ul>
+<h3 id='sandbox'>Sandbox</h3>
+<ul>
+<li><p>The sandbox will help you to set up and simulate transactions. It does not store any data and therefore it needs all the data from you. That’s why you will need to pass the callback/webhook url. </p></li>
+<li><p>Just make sure you can use the same callback url and it should not be a dynamic url because in production, you will not be able to pass the callback url within the payment request. It has to be set statically under you merchant account in production.</p></li>
+</ul>
+<h3 id='user-experience-mobile-money'>User Experience - Mobile Money</h3>
+<ul>
+<li>When integrating collections, make sure that the customer is always aware of what&#39;s going on to prevent repeatitive attempts that could cause your account to be suspended.</li>
+<li>For mobile money collections, before you submit an API request to us, prompt the customer to confirm that; 
+<br>1. They have sufficient funds on the phone number shown to them
+<br>2. And that a mobile money request will be sent to their phone number for approval.</li>
+<li>Once the API request is submitted, close that screen and present a new screen displaying the instructions returned to you in the api response.</li>
+<li>In the instructions screen, provide a button that leads then to a screen where they can view the status of their transaction request.</li>
+<li>Note: The status of the transaction request should be read from your application database because it will be updated when we call you back via the webhook/callback url.</li>
+<li>Also, make sure you display the transaction messages to the customer that we return especially when transactions fail. They will help the customer not make repeatitive attempts that could fail with the same reason because they are not made aware.</li>
 </ul>
 <h1 id='integration-workflow'>Integration Workflow</h1><h2 id='get-provider_ids'>Get provider_ids</h2>
 <ul>
@@ -1120,7 +1181,7 @@ Redirect Data</li>
 <tr>
 <td></td>
 <td>branch_code</td>
-<td>The Branch code of Ghanaian Bank. Required for GHS<br><br>An api to get Branch Codes will soon be availed as they are still being collected. Until then, Consider Ghana unavailable.</td>
+<td>The Branch code of Ghanaian Bank. Required for GHS<br><br>An api to get Branch Codes can be found <a href="#bank-branches-api">here</a>.</td>
 </tr>
 <tr>
 <td>USA<br> - BANK</td>
@@ -1622,12 +1683,15 @@ e.g <b>&quot;webhook-hash: XXXX&quot;</b>
 
 <ul>
 <li>content-type: application/json</li>
-<li>endpoint: /v1/{method}/{country}/branches/{bank_code}</li>
+<li>endpoint: /v1/{method}/{country}/branches/{bank_code}?api_key={{api_key}}</li>
 <li>method: GET</li>
 </ul>
 <pre class="highlight ruby tab-ruby"><code><span class="n">example</span> <span class="no">URL</span><span class="p">:</span>
 
 <span class="no">GET</span><span class="p">:</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">api</span><span class="p">.</span><span class="nf">dusupay</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bank</span><span class="o">/</span><span class="n">gh</span><span class="o">/</span><span class="n">branches</span><span class="o">/</span><span class="no">GH030100</span><span class="p">?</span><span class="n">api_key</span><span class="o">=</span><span class="p">{{</span><span class="n">api_key</span><span class="p">}}</span>
+
+<span class="no">Where</span> <span class="no">GH030100</span> <span class="n">is</span> <span class="n">the</span> <span class="n">bank_code</span>
+
 </code></pre><pre class="highlight ruby tab-ruby"><code><span class="n">example</span> <span class="no">Response</span><span class="p">:</span>
 </code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
@@ -1765,6 +1829,81 @@ secret-key  | SECK3298j923  | Use your merchant account secret key</p>
 <td>Get your public key from your merchant account settings</td>
 </tr>
 </tbody></table>
+<h1 id='refund'>Refund</h1>
+<ul>
+<li>content-type: application/json</li>
+<li>endpoint: /v1/refund</li>
+<li>method: POST</li>
+</ul>
+<pre class="highlight ruby tab-ruby"><code><span class="no">POST</span><span class="p">:</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">api</span><span class="p">.</span><span class="nf">dusupay</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">refund</span>
+</code></pre><pre class="highlight plaintext"><code>Sample Request
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"internal_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This is sent back in the api response or callback"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>api_key</td>
+<td>Merchant account public key.</td>
+</tr>
+<tr>
+<td>internal_reference</td>
+<td>This is the <code>internal_reference</code> of the transaction to be refunded. <br>This value is returned in the api response or webhook/callback data sent to your webhook url.</td>
+</tr>
+</tbody></table>
+<pre class="highlight plaintext"><code>Sample Response
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">202</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"accepted"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Refund Initiated Successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">65205</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"refund_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">1054</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"refund_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UGX"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"transaction_fee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"total_debit"</span><span class="p">:</span><span class="w"> </span><span class="mi">1054</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"international_ugx"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"collection_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DUSUPAYXYXYXYXYXYXYXYXYX"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"internal_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RFD-DUSUPAYXYXYXYXYXYXYXYXYX-3486003"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"transaction_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"refund"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"transaction_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PENDING"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"account_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4860610032773134"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Request Initiated"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h2 id='request-headers'>Request Headers</h2>
+<p>Parameter   | Examples      | Description
+secret-key  | SECK3298j923  | Use your merchant account secret key</p>
+<h2 id='query-parameters'>Query Parameters</h2>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Examples</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>api_key</td>
+<td>PUBK3298j923</td>
+<td>Get your public key from your merchant account settings</td>
+</tr>
+</tbody></table>
+<h2 id='note'>Note</h2>
+<ul>
+<li>The sandbox does not support refunds.</li>
+<li>Currently, we only supporte <code>full refunds</code></li>
+<li>Currently, you can only refund <code>card</code> transactions</li>
+<li>For <code>mobile_money</code> we recommend that you instead make a payout to the customer</li>
+<li>When you make a refund request, we refund the customer the exact amount that was paid by the customer in the original transaction. The details are returned in the api response. <br>The funds are debited from your merchant account and a refund request is created for processing.</li>
+<li>We will also make a callback to your webhook/callback url set under your merchant account.</li>
+<li>Sample webhook data can be found in the <a href="#webhooks">webhook’s section</a></li>
+</ul>
 <h1 id='testing-sandbox'>Testing Sandbox</h1><h2 id='description'>Description</h2>
 <ul>
 <li>This is a simulation of how the requests would be handled in production.</li>
