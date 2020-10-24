@@ -382,6 +382,9 @@
                   <li>
                     <a href="#sample-refund-ipn-data" class="toc-h2 toc-link" data-title="Sample Refund IPN Data">Sample Refund IPN Data</a>
                   </li>
+                  <li>
+                    <a href="#callback-signature-verification-optional" class="toc-h2 toc-link" data-title="Callback Signature Verification (Optional)">Callback Signature Verification (Optional)</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -1826,7 +1829,120 @@ e.g <b>&quot;webhook-hash: XXXX&quot;</b>
     </span><span class="s2">"account_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4860610032773134"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Refund Processed Successfully"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><h1 id='payment-options-providers-api'>Payment Options/providers Api</h1><h2 id='description'>Description</h2>
+</span></code></pre><h2 id='callback-signature-verification-optional'>Callback Signature Verification (Optional)</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">226</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"request_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"request_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"account_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">737.9934</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"account_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UGX"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"transaction_fee"</span><span class="p">:</span><span class="w"> </span><span class="mf">21.4018</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"total_credit"</span><span class="p">:</span><span class="w"> </span><span class="mf">716.5916</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"customer_charged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mtn_ug"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"merchant_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"76859aae-f148-48c5-9901-2e474cf19b71"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"internal_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DUSUPAY405GZM1G5JXGA71IK"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"transaction_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"COMPLETED"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"transaction_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"collection"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transaction Completed Successfully"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<ul>
+<li>In addition to the <code>webhook-hash</code> header when calling back, there&#39;s another header with the name <code>dusupay-signature</code> and this is to help merchants trust that the callbacks originate from the DusuPay servers. Signature verification can be done with the following procedure;</li>
+</ul>
+
+<ol>
+<li><p>Retrieve the value of the <code>dusupay-signature</code> header.</p></li>
+<li><p>Form the string payload to be used in signature verification. This is obtained by concatenating values of the callback data in the format that follows
+<br><br><code>id:internal_reference:transaction_status:callback_url</code> 
+<br><br>where <strong>callback_url</strong> is the full URL as added to your merchant account settings. <br>
+<br>The other values are obtained from the callback data. e.g. assume the following is the callback data and that the callback URL is<br> <code>https://www.sample-url.com/callback</code>
+<br><br>The string payload would therefore be <br><code>226:DUSUPAY405GZM1G5JXGA71IK:COMPLETED:https://www.sample-url.com/callback</code></p></li>
+<li><p>Obtain the public key as described in the previous section and store it as a file.</p></li>
+<li><p>Use the public key to verify the signature as described in the example source codes below;</p></li>
+</ol>
+<h3 id='signature-verification-code-samples'>Signature Verification Code Samples</h3>
+<ul>
+<li>Signature Verification samples are as seen in the code samples on the right</li>
+</ul>
+<pre class="highlight json tab-json"><code><span class="err">//</span><span class="w"> </span><span class="err">Check</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">samples</span><span class="w"> </span><span class="err">from</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">NodeJS</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">PHP</span><span class="w"> </span><span class="err">sample</span><span class="w"> </span><span class="err">tabs</span><span class="w">
+</span><span class="err">//</span><span class="w"> </span><span class="err">on</span><span class="w"> </span><span class="err">how</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">validate</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">signature</span><span class="w">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</span></code></pre><pre class="highlight shell tab-shell"><code><span class="c"># Check the samples from the NodeJS and PHP sample tabs</span>
+<span class="c"># on how to validate the signature</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'fs'</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">isValidSignature</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">strPayload</span> <span class="o">=</span> <span class="s2">"226:DUSUPAY405GZM1G5JXGA71IK:COMPLETED:https://www.sample-url.com/callback"</span><span class="p">;</span>
+    <span class="kr">const</span> <span class="nx">signature</span> <span class="o">=</span> <span class="s2">"value-of-dusupay-signature"</span><span class="p">;</span>
+    <span class="kr">const</span> <span class="nx">publicKeyFile</span> <span class="o">=</span> <span class="s2">"path-to-file/dusupay.public.key.pem"</span><span class="p">;</span>
+    <span class="kr">const</span> <span class="nx">publicKey</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">publicKeyFile</span><span class="p">).</span><span class="nx">toString</span><span class="p">().</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/</span><span class="se">\\</span><span class="sr">n/g</span><span class="p">,</span> <span class="s1">'\n'</span><span class="p">);</span>
+
+    <span class="kr">const</span> <span class="nx">verify</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createVerify</span><span class="p">(</span><span class="s2">"SHA512"</span><span class="p">);</span>
+    <span class="nx">verify</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">strPayload</span><span class="p">);</span>
+    <span class="nx">verify</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+
+    <span class="cm">/*true or false*/</span>
+    <span class="k">return</span> <span class="nx">verify</span><span class="p">.</span><span class="nx">verify</span><span class="p">(</span><span class="nx">publicKey</span><span class="p">,</span> <span class="nx">signature</span><span class="p">,</span> <span class="s1">'base64'</span><span class="p">);</span>
+<span class="p">}</span>
+
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">isValidSignature</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$file</span> <span class="o">=</span> <span class="s2">"path-to-file/dusupay.public.key.pem"</span><span class="p">;</span>
+    <span class="nv">$keyContent</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
+    <span class="nv">$publicKey</span> <span class="o">=</span> <span class="nb">openssl_get_publickey</span><span class="p">(</span><span class="nv">$keyContent</span><span class="p">);</span>
+    <span class="nv">$strPayload</span> <span class="o">=</span> <span class="s2">"226:DUSUPAY405GZM1G5JXGA71IK:COMPLETED:https://www.sample-url.com/callback"</span><span class="p">;</span>
+    <span class="nv">$signature</span> <span class="o">=</span> <span class="nb">base64_decode</span><span class="p">(</span><span class="s2">"value-of-dusupay-signature"</span><span class="p">);</span>
+
+    <span class="cm">/*true or false*/</span>
+    <span class="k">return</span> <span class="nb">openssl_verify</span><span class="p">(</span><span class="nv">$strPayload</span><span class="p">,</span> <span class="nv">$signature</span><span class="p">,</span> <span class="nv">$publicKey</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span>
+
+
+
+
+
+//
+</code></pre><h1 id='payment-options-providers-api'>Payment Options/providers Api</h1><h2 id='description'>Description</h2>
 <ul>
 <li>Use this api to get <code>provider_ids</code>, <code>bank codes</code> and <code>bank branches</code> where applicable.</li>
 <li>Each <code>provider_id</code> used to process a payment has a base currency e.g <code>mtn_ug</code> has <code>UGX</code>, <code>mtn_cm</code> has <code>XAF</code>, <code>international_usd</code> has <code>USD</code>.</li>
