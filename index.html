@@ -201,7 +201,7 @@
       <script src="javascripts/all-c5541673.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;ruby&quot;]">
+  <body class="index" data-languages="[&quot;json&quot;,&quot;shell&quot;,&quot;javascript&quot;,&quot;php&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -211,7 +211,10 @@
     <div class="toc-wrapper">
       <img src="images/logo-9dbe0190.png" class="logo" alt="Logo" />
         <div class="lang-selector">
-              <a href="#" data-language-name="ruby">Example</a>
+              <a href="#" data-language-name="json">JS/Json</a>
+              <a href="#" data-language-name="shell">Shell</a>
+              <a href="#" data-language-name="javascript">NodeJS</a>
+              <a href="#" data-language-name="php">PHP</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -309,6 +312,15 @@
                   </li>
                   <li>
                     <a href="#redirect-data" class="toc-h2 toc-link" data-title="Redirect Data">Redirect Data</a>
+                  </li>
+                  <li>
+                    <a href="#direct-card-collections" class="toc-h2 toc-link" data-title="Direct Card Collections">Direct Card Collections</a>
+                  </li>
+                  <li>
+                    <a href="#get-list-of-verification-countries" class="toc-h2 toc-link" data-title="GET List of verification countries">GET List of verification countries</a>
+                  </li>
+                  <li>
+                    <a href="#get-download-the-public-key" class="toc-h2 toc-link" data-title="GET/Download the public key">GET/Download the public key</a>
                   </li>
               </ul>
           </li>
@@ -726,12 +738,12 @@ For payments that do not need to be completed from the web, the <code>payment_ur
 <p>Request payments at the comfort of your home currency.</p>
 
 <ul>
-<li>content-type: application/json</li>
-<li>endpoint: /v1/collections</li>
 <li>method/verb: POST</li>
+<li>LiveEndpoint: POST: https://api.dusupay.com/v1/collections</li>
+<li>SandboxEndpoint: POST: https://sandbox.dusupay.com/v1/collections </li>
+<li>Header: &#39;content-type: application/json&#39;</li>
 </ul>
-<pre class="highlight ruby tab-ruby"><code><span class="no">POST</span><span class="p">:</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">api</span><span class="p">.</span><span class="nf">dusupay</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">collections</span>
-</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
+<h3 id='sample-request-data'>Sample Request Data</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
     </span><span class="s2">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pk_eridsdsde23e23e2. Get this from your merchant account settings"</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w"> 
     </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w">
@@ -1036,7 +1048,335 @@ Redirect Data</li>
 <td>Response message.</td>
 </tr>
 </tbody></table>
-<h1 id='sending-money'>Sending Money</h1><h1 id='introduction'>Introduction</h1><h2 id='how-it-work'>How it work</h2>
+<h2 id='direct-card-collections'>Direct Card Collections</h2>
+<p>We support direct card collection requests. This means that as a merchant, you can create a payment form on your interface and then send the card details to the API to process the payment. 
+<br><br>
+Card data is not sent in plain text but rather as an encrypted string. On the right, is a sample JSON template for the direct card collection request</p>
+<h3 id='request-data'>Request Data</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUBK-***"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CARD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"international_usd"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"account_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"merchant_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unique_ref"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"narration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Direct Collection Request"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"redirect_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://redirect-url"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"card_cipher"</span><span class="p">:</span><span class="w"> </span><span class="s2">"encrypted-string"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<ul>
+<li>Request data is as seen on the right</li>
+</ul>
+<h4 id='note'>NOTE:</h4>
+<ul>
+<li>The parameter <b><code>**card_cipher**</code></b> holds the encrypted card details. </li>
+</ul>
+<h3 id='encryption'>ENCRYPTION</h3><h4 id='step-1-organise-card-details-in-json'>STEP 1 - Organise Card Details in json</h4>
+<ul>
+<li>A JSON string with data keys like those shown in the sample on the right should be created.</li>
+</ul>
+<h5 id='card-details'>Card Details</h5>
+<ul>
+<li>The card details should be included in a json object which will be encryted to generate the data for the <code>card_cipher</code> parameter when making a card collection request.</li>
+</ul>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"card_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0123456789123456"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"exp_month"</span><span class="p">:</span><span class="w"> </span><span class="s2">"06"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"exp_year"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cvv"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"pin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1234"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"billing_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Second Street"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"billing_city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"San Francisco"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"billing_zip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"94105"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"billing_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CA"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"billing_country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight shell tab-shell"><code><span class="c"># Check the Js/Json tab for a sample card detail object </span>
+<span class="c"># meant to be encrypted as the card_cipher parameter value</span>
+
+
+
+
+
+
+
+
+
+
+<span class="c">#</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Check the Js/Json tab for a sample card detail object </span>
+<span class="c1">// meant to be encrypted as the card_cipher parameter value</span>
+
+
+
+
+
+
+
+
+
+
+<span class="c1">//</span>
+</code></pre><pre class="highlight php tab-php"><code># Check the Js/Json tab for a sample card detail object 
+# meant to be encrypted as the card_cipher parameter value
+
+
+
+
+
+
+
+
+
+
+#
+</code></pre>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>full_name</td>
+<td>string, required</td>
+<td>The full name of the card holder as registered by the issuer</td>
+</tr>
+<tr>
+<td>card_no</td>
+<td>string, required</td>
+<td>The card number. Usually length of 16 to 19</td>
+</tr>
+<tr>
+<td>exp_month</td>
+<td>string, required</td>
+<td>The card expiry month. For single digit months, prefix 0 e.g. <code>06</code></td>
+</tr>
+<tr>
+<td>exp_year</td>
+<td>string, required</td>
+<td>The card expiry year</td>
+</tr>
+<tr>
+<td>cvv</td>
+<td>string, required</td>
+<td>The card CVV, CVC etc depending on the nature of the card</td>
+</tr>
+<tr>
+<td>pin</td>
+<td>string, optional</td>
+<td>Optional parameter, only required for locally issued Nigerian Verve cards</td>
+</tr>
+<tr>
+<td>billing_address</td>
+<td>string, optional</td>
+<td>Billing address as registered by the issuer. Required for cards issued in USA, Canada and Europe</td>
+</tr>
+<tr>
+<td>billing_city</td>
+<td>string, optional</td>
+<td>Billing city name as registered by the issuer. Required for cards issued in USA, Canada and Europe</td>
+</tr>
+<tr>
+<td>billing_zip</td>
+<td>string, optional</td>
+<td>The zip/postal code. Required for cards issued in USA, Canada and Europe</td>
+</tr>
+<tr>
+<td>billing_state</td>
+<td>string, optional</td>
+<td>State name. Required for cards issued in USA, Canada and Europe</td>
+</tr>
+<tr>
+<td>billing_country</td>
+<td>string, optional</td>
+<td>The 2 character ISO country code. Required for cards issued in USA, Canada and Europe. The country code list can be obtained from the API endpoint below.</td>
+</tr>
+</tbody></table>
+<h4 id='step-2-encrypt-the-json'>STEP 2 - Encrypt the JSON</h4>
+<ul>
+<li>Check the samples from the NodeJS and PHP sample tabs</li>
+</ul>
+<h5 id='note-2'>NOTE</h5>
+<ul>
+<li>First Download the public key using the <a href="#get-download-the-public-key">API here</a> and store it in a text file named <code>dusupay.public.key.pem</code>. This will be needed </li>
+</ul>
+<pre class="highlight json tab-json"><code><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Check</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">samples</span><span class="w"> </span><span class="err">from</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">NodeJS</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">PHP</span><span class="w"> </span><span class="err">sample</span><span class="w"> </span><span class="err">tabs</span><span class="w">
+ </span><span class="err">//</span><span class="w"> </span><span class="err">on</span><span class="w"> </span><span class="err">how</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">encrypt</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">card</span><span class="w"> </span><span class="err">details</span><span class="w">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</span><span class="err">//</span><span class="w">
+</span></code></pre><pre class="highlight shell tab-shell"><code><span class="c"># Check the samples from the NodeJS and PHP sample tabs</span>
+<span class="c"># on how to encrypt the card details</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="c">#</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code>
+<span class="kr">const</span> <span class="nx">crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'fs'</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">full_name</span><span class="p">:</span> <span class="s2">"John Doe"</span><span class="p">,</span>
+        <span class="na">card_no</span><span class="p">:</span> <span class="s2">"0123456789123456"</span><span class="p">,</span>
+        <span class="na">exp_month</span><span class="p">:</span> <span class="s2">"06"</span><span class="p">,</span>
+        <span class="na">exp_year</span><span class="p">:</span> <span class="s2">"22"</span><span class="p">,</span>
+        <span class="na">cvv</span><span class="p">:</span> <span class="s2">"123"</span>
+    <span class="p">};</span>
+
+<span class="kd">function</span> <span class="nx">encryptData</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">payload</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+    <span class="kr">const</span> <span class="nx">publicKeyFile</span> <span class="o">=</span> <span class="s2">"path-to-file/dusupay.public.key.pem"</span><span class="p">;</span>
+    <span class="kr">const</span> <span class="nx">publicKey</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">publicKeyFile</span><span class="p">).</span><span class="nx">toString</span><span class="p">().</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/</span><span class="se">\\</span><span class="sr">n/g</span><span class="p">,</span> <span class="s1">'\n'</span><span class="p">);</span>
+
+    <span class="kr">const</span> <span class="nx">encryptedData</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">publicEncrypt</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="na">key</span><span class="p">:</span> <span class="nx">publicKey</span><span class="p">,</span>
+            <span class="na">padding</span><span class="p">:</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">constants</span><span class="p">.</span><span class="nx">RSA_PKCS1_OAEP_PADDING</span><span class="p">,</span>
+            <span class="na">oaepHash</span><span class="p">:</span> <span class="s2">"SHA512"</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="nx">Buffer</span><span class="p">.</span><span class="nx">from</span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span>
+    <span class="p">);</span>
+
+    <span class="cm">/*return the base64 encoded version of the encrypted string*/</span>
+    <span class="k">return</span> <span class="nx">encryptedData</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="s2">"base64"</span><span class="p">);</span>
+<span class="p">}</span>
+
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">encryptData</span><span class="p">(</span><span class="nv">$jsonString</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$file</span> <span class="o">=</span> <span class="s2">"path-to-file/dusupay.public.key.pem"</span><span class="p">;</span>
+    <span class="nv">$keyContent</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
+    <span class="nv">$publicKey</span> <span class="o">=</span> <span class="nb">openssl_get_publickey</span><span class="p">(</span><span class="nv">$keyContent</span><span class="p">);</span>
+    <span class="nv">$ret</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nb">openssl_public_encrypt</span><span class="p">(</span><span class="nv">$jsonString</span><span class="p">,</span> <span class="nv">$result</span><span class="p">,</span> <span class="nv">$publicKey</span><span class="p">,</span> <span class="nx">OPENSSL_PKCS1_OAEP_PADDING</span><span class="p">))</span> <span class="p">{</span>
+        <span class="cm">/*get the base64 encoded version of the encrypted string*/</span>
+        <span class="nv">$ret</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s1">''</span> <span class="o">.</span> <span class="nv">$result</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nv">$ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
+</code></pre><h2 id='get-list-of-verification-countries'>GET List of verification countries</h2>
+<ul>
+<li>To get a list of the countries to include in the <code>billing_country</code> parameter accordingly, use the api describe on the right. Sample curl/shell request is included.</li>
+</ul>
+<pre class="highlight json tab-json"><code><span class="err">Request</span><span class="p">:</span><span class="w"> </span><span class="err">GET</span><span class="p">:</span><span class="w"> </span><span class="err">https</span><span class="p">:</span><span class="err">//api.dusupay.com/v</span><span class="mi">1</span><span class="err">/avs-countries?api_key=PUBK-***</span><span class="w">
+</span><span class="err">Header</span><span class="p">:</span><span class="w"> </span><span class="err">'secret-key</span><span class="p">:</span><span class="w"> </span><span class="err">SECK-***'</span><span class="w">
+
+</span><span class="err">//</span><span class="w"> </span><span class="err">Check</span><span class="w"> </span><span class="err">under</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">shell</span><span class="w"> </span><span class="err">sample</span><span class="w"> </span><span class="err">tab</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">CURL</span><span class="w"> </span><span class="err">example</span><span class="w">
+</span><span class="err">//</span><span class="w"> </span><span class="err">on</span><span class="w"> </span><span class="err">how</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">GET</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">list</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">veirification</span><span class="w"> </span><span class="err">countries</span><span class="w">
+</span></code></pre><pre class="highlight shell tab-shell"><code>curl -v -X GET <span class="s1">'https://api.dusupay.com/v1/avs-countries?api_key=PUBK-***'</span> -H <span class="s1">'secret-key: SECK-***'</span>
+
+
+
+<span class="c">#</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Check under the shell sample tab for CURL example</span>
+<span class="c1">// on how to GET the list of veirification countries</span>
+
+
+<span class="c1">//</span>
+</code></pre><pre class="highlight php tab-php"><code>// Check under the shell sample tab for CURL example
+// on how to GET the list of veirification countries
+
+
+
+//
+</code></pre><h2 id='get-download-the-public-key'>GET/Download the public key</h2>
+<ul>
+<li>The contents can be stored in a text file and named <code>dusupay.public.key.pem</code> which will be needed to encrypt the data.</li>
+</ul>
+<pre class="highlight json tab-json"><code><span class="err">Request</span><span class="p">:</span><span class="w"> </span><span class="err">GET</span><span class="p">:</span><span class="w"> </span><span class="err">https</span><span class="p">:</span><span class="err">//api.dusupay.com/v</span><span class="mi">1</span><span class="err">/download-public-key?api_key=PUBK-***</span><span class="w">
+</span><span class="err">Header</span><span class="p">:</span><span class="w"> </span><span class="err">'secret-key</span><span class="p">:</span><span class="w"> </span><span class="err">SECK-***'</span><span class="w">
+
+</span><span class="err">//</span><span class="w"> </span><span class="err">Check</span><span class="w"> </span><span class="err">under</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">shell</span><span class="w"> </span><span class="err">sample</span><span class="w"> </span><span class="err">tab</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">CURL</span><span class="w"> </span><span class="err">example</span><span class="w"> 
+</span><span class="err">//</span><span class="w"> </span><span class="err">on</span><span class="w"> </span><span class="err">how</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">Download</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">public</span><span class="w"> </span><span class="err">key</span><span class="w">
+</span></code></pre><pre class="highlight shell tab-shell"><code>curl -v -X GET <span class="s1">'https://api.dusupay.com/v1/download-public-key?api_key=PUBK-***'</span> -H <span class="s1">'secret-key: SECK-***'</span>
+
+
+
+<span class="c">#</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Check under the shell sample tab for CURL example</span>
+<span class="c1">// on how to Download the public key</span>
+
+
+<span class="c1">//</span>
+</code></pre><pre class="highlight php tab-php"><code>// Check under the shell sample tab for CURL example
+// on how to Download the public key
+
+
+//
+</code></pre><h1 id='sending-money'>Sending Money</h1><h1 id='introduction'>Introduction</h1><h2 id='how-it-work'>How it work</h2>
 <ul>
 <li>With dusupay, Money is sent to either a customer’s mobile money wallet or bank supported.</li>
 <li>We will debit the equivalent local currency amount supported by the provider at market rate.</li>
@@ -2097,7 +2437,10 @@ Other bank accounts or banks should work. </p>
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="ruby">Example</a>
+                <a href="#" data-language-name="json">JS/Json</a>
+                <a href="#" data-language-name="shell">Shell</a>
+                <a href="#" data-language-name="javascript">NodeJS</a>
+                <a href="#" data-language-name="php">PHP</a>
           </div>
       </div>
     </div>
