@@ -447,16 +447,10 @@
                     <a href="#description" class="toc-h2 toc-link" data-title="Description">Description</a>
                   </li>
                   <li>
-                    <a href="#note" class="toc-h2 toc-link" data-title="Note">Note</a>
-                  </li>
-                  <li>
                     <a href="#base-url" class="toc-h2 toc-link" data-title="Base URL">Base URL</a>
                   </li>
                   <li>
-                    <a href="#test-credentials" class="toc-h2 toc-link" data-title="Test Credentials">Test Credentials</a>
-                  </li>
-                  <li>
-                    <a href="#available-test-api-endpoints" class="toc-h2 toc-link" data-title="Available Test Api Endpoints">Available Test Api Endpoints</a>
+                    <a href="#test-account" class="toc-h2 toc-link" data-title="Test Account">Test Account</a>
                   </li>
               </ul>
           </li>
@@ -2393,40 +2387,14 @@ secret-key  | SECK3298j923  | Use your merchant account secret key</p>
 </ul>
 <h1 id='testing-sandbox'>Testing Sandbox</h1><h2 id='description'>Description</h2>
 <ul>
-<li>This is a simulation of how the requests would be handled in production.</li>
-<li>Since you will not have a dashboard to set your <code>test_webhook_url</code>, you need to include it when making api requests.</li>
-<li>We will <code>POST</code> <code>IPNs</code> to the <code>test_webhook_url</code> included in the payment requests.</li>
-<li>Transactions are not logged anywhere on our system therefore you should not expect a dashboard.</li>
-<li>This sandbox is intended to speed up your integration process.
-We will randomly send <code>COMPLETE</code> or <code>FAILED</code> IPNs to your <code>test_webhook_url</code> for test requests made.</li>
-</ul>
-<h2 id='note'>Note</h2>
-<ul>
-<li>The sandbox does not store or hold any data. Therefore you should not expect us to check for any sandbox transaction or expect to signup anywhere to access the sandbox.</li>
+<li><p>The sandbox works like the live platform and therefore, after integrating it, you will simply ned to change the base-url and API keys to those meant for the live API.</p></li>
+<li><p>Customer accounts to test for both failure and complete transactions are returned by the sandbox payment options API. </p></li>
 </ul>
 <h2 id='base-url'>Base URL</h2>
 <p>https://sandbox.dusupay.com</p>
-<h2 id='test-credentials'>Test Credentials</h2>
-<table><thead>
-<tr>
-<th>credential</th>
-<th>value</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>api_key</td>
-<td>PUBK-119a612068d0ad31aa2dc2aeea346e35</td>
-</tr>
-<tr>
-<td>secret-key</td>
-<td>SECK-119e1c847b50352ea1eb32ccba5ecd71</td>
-</tr>
-<tr>
-<td>webhook-hash</td>
-<td>TEST-DP-fu394jn2o23odko2i3</td>
-</tr>
-</tbody></table>
-<h2 id='available-test-api-endpoints'>Available Test Api Endpoints</h2><h3 id='test-collections-api'>Test Collections API</h3>
+<h2 id='test-account'>Test Account</h2>
+<p>Sign up from http://sandbox.merchant.dusupay.com</p>
+<h3 id='test-collections-api'>Test Collections API</h3>
 <p>https://sandbox.dusupay.com/v1/collections</p>
 <h3 id='test-payouts-api'>Test Payouts API</h3>
 <p>https://sandbox.dusupay.com/v1/payouts</p>
@@ -2445,13 +2413,9 @@ We will randomly send <code>COMPLETE</code> or <code>FAILED</code> IPNs to your 
 <li>This means that you should always redirect the customer whenever you find the <code>payment_url</code> field populated with a url. </li>
 <li>This also means, in the event we get a mobile money option that uses <code>payment_url</code>, you will have nothing to change in how you will be handling the workflow.</li>
 </ul>
-<h4 id='test-callbacks'>Test Callbacks</h4>
-<ul>
-<li>When you make a request on the sandbox, we will randomly callback the <code>test_webhook_url</code> with failure or success to make sure you can handle both failed and successful transactions.</li>
-</ul>
 <h3 id='moving-to-production'>Moving to production.</h3>
 <ul>
-<li>Do not pass the <code>test_webhook_url</code> when using the production api. Instead, set the <code>webhook_url</code> under your merchant account &gt; Settings &gt; Api Settings &gt; Edit</li>
+<li>Set the <code>webhook_url</code> under your merchant account &gt; Settings &gt; Api Settings &gt; Edit</li>
 <li>Replace the api credentials with those from your live merchant account</li>
 <li>Ensure that the api urls are correct and that they are the production urls</li>
 <li>Ensure that the api response data is nolonger manually modified with static values.</li>
