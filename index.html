@@ -1269,8 +1269,7 @@ Card data is not sent in plain text but rather as an encrypted string. On the ri
 
 
 <span class="c">#</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code>
-<span class="kr">const</span> <span class="nx">crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'fs'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
@@ -1289,8 +1288,7 @@ Card data is not sent in plain text but rather as an encrypted string. On the ri
     <span class="kr">const</span> <span class="nx">encryptedData</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">publicEncrypt</span><span class="p">(</span>
         <span class="p">{</span>
             <span class="na">key</span><span class="p">:</span> <span class="nx">publicKey</span><span class="p">,</span>
-            <span class="na">padding</span><span class="p">:</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">constants</span><span class="p">.</span><span class="nx">RSA_PKCS1_OAEP_PADDING</span><span class="p">,</span>
-            <span class="na">oaepHash</span><span class="p">:</span> <span class="s2">"SHA512"</span><span class="p">,</span>
+            <span class="na">padding</span><span class="p">:</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">constants</span><span class="p">.</span><span class="nx">RSA_PKCS1_PADDING</span>
         <span class="p">},</span>
         <span class="nx">Buffer</span><span class="p">.</span><span class="nx">from</span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span>
     <span class="p">);</span>
@@ -1307,7 +1305,7 @@ Card data is not sent in plain text but rather as an encrypted string. On the ri
     <span class="nv">$publicKey</span> <span class="o">=</span> <span class="nb">openssl_get_publickey</span><span class="p">(</span><span class="nv">$keyContent</span><span class="p">);</span>
     <span class="nv">$ret</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="nb">openssl_public_encrypt</span><span class="p">(</span><span class="nv">$jsonString</span><span class="p">,</span> <span class="nv">$result</span><span class="p">,</span> <span class="nv">$publicKey</span><span class="p">,</span> <span class="nx">OPENSSL_PKCS1_OAEP_PADDING</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">openssl_public_encrypt</span><span class="p">(</span><span class="nv">$jsonString</span><span class="p">,</span> <span class="nv">$result</span><span class="p">,</span> <span class="nv">$publicKey</span><span class="p">,</span> <span class="nx">OPENSSL_PKCS1_PADDING</span><span class="p">))</span> <span class="p">{</span>
         <span class="cm">/*get the base64 encoded version of the encrypted string*/</span>
         <span class="nv">$ret</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s1">''</span> <span class="o">.</span> <span class="nv">$result</span><span class="p">);</span>
     <span class="p">}</span>
